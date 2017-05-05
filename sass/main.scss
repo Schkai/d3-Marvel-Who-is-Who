@@ -1,7 +1,10 @@
+$primary-color: #333;
+
+
 * {
   font-family: helvetica, arial;
 }
 
 circle {
-  fill: #39b54a;
+  fill: $primary-color;
 }
