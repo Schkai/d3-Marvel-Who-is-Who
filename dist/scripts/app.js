@@ -1,6 +1,7 @@
 "use strict";
-var PRIV_KEY = "PRIVATE_KEY_HERE";
-var PUBLIC_KEY = "PUBLIC_KEY_HERE";
+var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
+var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
+var marvelData = [];
 function draw(data) {
   d3.select("#main").append("circle").attr("cx", 50).attr("cy", 50).attr("r", 50);
 }
@@ -9,15 +10,19 @@ function getMarvelResponse() {
   var ts = new Date().getTime();
   var hash = CryptoJS.MD5(ts + PRIV_KEY + PUBLIC_KEY).toString();
   var characterId = '1009718';
-  var url = 'http://gateway.marvel.com:80/v1/public/comics';
+  var url = 'http://gateway.marvel.com:80/v1/public/events';
+  var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
+  var LIMIT = 100;
   console.log(url);
   $.getJSON(url, {
+    limit: LIMIT,
+    offset: 0,
     ts: ts,
     apikey: PUBLIC_KEY,
     hash: hash
   }).done(function(data) {
     console.log(data);
-    testImages(data);
+    marvelData = data;
   }).fail(function(err) {
     console.log(err);
   });

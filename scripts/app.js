@@ -1,5 +1,7 @@
-var PRIV_KEY = "PRIVATE_KEY_HERE";
-var PUBLIC_KEY = "PUBLIC_KEY_HERE";
+var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
+var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
+
+var marvelData = [];
 
 
 function draw(data){
@@ -23,10 +25,14 @@ function getMarvelResponse() {
   var characterId = '1009718'; // wolverine                                                                             
 
 
-  var url = 'http://gateway.marvel.com:80/v1/public/comics';
+  var url = 'http://gateway.marvel.com:80/v1/public/events';
+  var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
+  const LIMIT = 100;
 
   console.log(url);
   $.getJSON(url, {
+    limit: LIMIT,
+    offset: 0,
     ts: ts,
     apikey: PUBLIC_KEY,
     hash: hash,
@@ -35,7 +41,8 @@ function getMarvelResponse() {
     .done(function(data) {
       // sort of a long dump you will need to sort through
       console.log(data);
-      testImages(data);
+      marvelData = data;
+      //testImages(data);
     })
     .fail(function(err){
       // the error codes are listed on the dev site
@@ -48,6 +55,7 @@ function testImages(data){
       var resultsLen = results.length;
       var output = '<ul>'; 
       
+      //append images to a simple list
       for(var i=0; i<resultsLen; i++){
         if(results[i].images.length > 0) {
           var imgPath = results[i].images[0].path + '/standard_xlarge.' + results[i].images[0].extension;
