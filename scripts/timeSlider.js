@@ -1,25 +1,10 @@
 var TimeSlider =  chroniton()
-      //.domain([new Date(+new Date() - 60 * 1000), new Date()])
-      .keybindings(true)
-      .width(500)
-      .playButton(true);
+        .domain([new Date('1/1/1975'), new Date('1/1/2015')])
+        .width(500)
+        .labelFormat(d3.time.format('%Y'))
+        .on('change', function(d) {
+          var yearNameFormat = d3.time.format("%Y"); 
+          yearOutput.text(yearNameFormat(d));
+        })
 
 export { TimeSlider }
-
-/*d3.select(document.body).append('h3').text('Custom Label Format');
-d3.select(document.body)
-    .append('div')
-    .call(
-      chroniton()
-        .labelFormat(d3.time.format('%b %e'))
-        .width(500));
-
-d3.select(document.body).append('h3').text('Specifying the date Domain');
-d3.select(document.body)
-    .append('div')
-    .call(
-      chroniton()
-        .domain([new Date(+new Date() - 60 * 1000), new Date()])
-        .labelFormat(d3.time.format('%X'))
-        .width(500));
-        */

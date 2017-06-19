@@ -1,11 +1,13 @@
 "use strict";
+var TimeSlider = require("./timeSlider").TimeSlider;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
-var TimeSlider = chroniton().domain([new Date(+new Date() - 60 * 1000), new Date()]);
 function draw(data) {
   d3.select("#main").append("circle").attr("cx", 50).attr("cy", 50).attr("r", 50);
-  d3.select("#timeSlider").append('div').style("width", "100%").call(TimeSlider);
+  d3.select(document.body).append('h3').text('You selected data for:');
+  var yearOutput = d3.select(document.body).append('h2');
+  d3.select(document.body).append('div').call(TimeSlider);
 }
 draw();
 function getMarvelResponse() {
