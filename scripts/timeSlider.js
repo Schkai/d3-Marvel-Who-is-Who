@@ -4,7 +4,7 @@ var TimeSlider =  chroniton()
         .labelFormat(d3.time.format('%Y'))
         .on('change', function(d) {
           var yearNameFormat = d3.time.format("%Y"); 
-          yearOutput.text(yearNameFormat(d));
+          //yearOutput.text(yearNameFormat(d));
         })
 
 export { TimeSlider }
