@@ -5,6 +5,8 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 
 var marvelData = [];
 
+var heroesData = [];
+
 
 function draw(data){
   d3.select("#main")
@@ -12,13 +14,19 @@ function draw(data){
     .attr("cx", 50)
     .attr("cy", 50)
     .attr("r", 50);
-    
 
-d3.select(document.body).append('h3').text('You selected data for:');
-var yearOutput = d3.select(document.body).append('h2');
+d3.json("./../data/heroes.json", function(data) {
+  heroesData = data;
+  console.log(data);
+});
+
 d3.select(document.body)
     .append('div')
-    .call(TimeSlider)
+    .classed('slider', true)
+    .call(TimeSlider);
+
+    d3.select('slider').append('h3').text('You selected data for:');
+
 }
 
 draw();
