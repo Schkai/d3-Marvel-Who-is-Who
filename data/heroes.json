@@ -1,0 +1,12 @@
+{"name":"Wolverine","year":"1974","meets":["Hulk"]}
+{"name":"Wolverine","year":"1975","meets":["Spiderman"]}
+{"name":"Wolverine","year":"1976","meets":["Deadpool", "Cyclops"]}
+{"name":"Hulk","year":"1974","meets":["Wolverine"]}
+{"name":"Hulk","year":"1975","meets":["Spiderman"]}
+{"name":"Hulk","year":"1976","meets":["Deadpool"]}
+{"name":"Spiderman","year":"1975","meets":["Wolverine", "Hulk"]}
+{"name":"Spiderman","year":"1976","meets":["Daredevil"]}
+{"name":"Deadpool","year":"1976","meets":["Wolverine", "Hulk"]}
+{"name":"Deadpool","year":"1977","meets":["Daredevil"]}
+{"name":"Daredevil","year":"1976","meets":["Spiderman"]}
+{"name":"Daredevil","year":"1977","meets":["Deadpool"]}

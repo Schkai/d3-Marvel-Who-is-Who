@@ -7,6 +7,7 @@ A d3.js project for university displaying Marvel characters and their relations 
 * `cd d3-marvel-who-is-who`
 * `npm install` 
 * `gulp`
+* Access site on `localhost:8000`
 
 
 ## Hierarchical Edge Bundle

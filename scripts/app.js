@@ -1,8 +1,12 @@
-var PRIV_KEY = "6a587885fb618288dae34bb1e6f19e5789fcd90d";
-var PUBLIC_KEY = "c4742b92c7e0923f3a22eeb96f90ad17";
+import {
+    TimeSlider
+}
+from './timeSlider';
+
+var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
+var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 
 var marvelData = [];
-
 
 function draw() {
     d3.select("#main")
@@ -11,12 +15,20 @@ function draw() {
         .attr("cy", 50)
         .attr("r", 50);
 
-    console.log(marvelData.data.results);
 
-    var myChart;
-    myChart = d3.select("#main");
-    selection_g = myChart.selectAll("g").data(marvelData.data.results);
-    selectEnter = selection_g.enter().append("g");
+    d3.select(document.body).append('h3').text('You selected data for:');
+    var yearOutput = d3.select(document.body).append('h2');
+    d3.select(document.body)
+        .append('div')
+        .call(TimeSlider)
+
+    //
+    //    console.log(marvelData.data.results);
+    //
+    //    var myChart;
+    //    myChart = d3.select("#main");
+    //    selection_g = myChart.selectAll("g").data(marvelData.data.results);
+    //    selectEnter = selection_g.enter().append("g");
 
     //        var entryList = {
     //            children: []

@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Marvels Who is Who</title>
-  <link rel="stylesheet" type="text/css" href="dist/css/main.css">
+    <title>Marvels Who is Who</title>
+    <link rel="stylesheet" type="text/css" href="dist/css/main.css">
 </head>
+
 <body>
-  <p id = "main">
-    Hallo Welt!
-  </p>
-  <div id="container">
-    <svg id="main">
-    </svg>
-  </div>
 
-<div id="marvel">
-  <h1>Marvel API</h1>
-<div id="results">
-  <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
-</div>
-</div>
+    <div id="container">
+        <div id="timeSlider">
+        </div>
+        <svg id="main">
+        </svg>
+    </div>
 
-<footer>
-  <p>Data provided by Marvel. © 2017 MARVEL</p>
-</footer>
+    <div id="marvel">
+        <h1>Marvel API</h1>
+        <div id="results">
+            <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
+        </div>
+    </div>
 
-  <script type="text/javascript" src="bower_components/d3/d3.js"></script>
-  <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
-  <script type="text/javascript" src="dist/scripts/app.js"></script>
+    <footer>
+        <p>Data provided by Marvel. © 2017 MARVEL</p>
+    </footer>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
+    <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+    <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
+    <script type="text/javascript" src="vendors/d3-slider/d3-slider.js"></script>
+    <script type="text/javascript" src="dist/scripts/app.js"></script>
 </body>
+
 </html>
