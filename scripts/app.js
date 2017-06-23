@@ -89,4 +89,3 @@ function testImages(data) {
 }
 
 getMarvelResponse();
-draw();
