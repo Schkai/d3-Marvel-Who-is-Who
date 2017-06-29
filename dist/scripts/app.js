@@ -2988,11 +2988,24 @@ var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
+var heroesData = [];
 function draw(data) {
-  d3.select("#main").append("circle").attr("cx", 50).attr("cy", 50).attr("r", 50);
-  d3.select(document.body).append('h3').text('You selected data for:');
-  var yearOutput = d3.select(document.body).append('h2');
-  d3.select(document.body).append('div').call(TimeSlider);
+  d3.json("./../data/heroes.json", function(data) {
+    heroesData = data;
+    console.log(heroesData);
+    var canvas = d3.select("#container").append("svg").attr("width", 1000).attr("height", 700);
+    canvas.selectAll("rect").data(heroesData).enter().append("rect").attr("width", 200).attr("height", 50).attr("y", function(d, i) {
+      return i * 80;
+    }).attr("fill", "red");
+    canvas.selectAll("text").data(data).enter().append("text").attr("fill", "#ffffff").attr("y", function(d, i) {
+      return i * 80 + 30;
+    }).attr("x", 5).text(function(d) {
+      console.log(d.name);
+      return d.name;
+    });
+  });
+  d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
+  d3.select('slider').append('h3').text('You selected data for:');
 }
 draw();
 function getMarvelResponse() {
@@ -3041,8 +3054,12 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
+var yearOutput = d3.select(document.body).append('h2');
 var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
   var yearNameFormat = d3.time.format("%Y");
+  console.log(yearNameFormat(d));
+  yearOutput.text(yearNameFormat(d));
+  return yearNameFormat(d);
 });
 ;
 
