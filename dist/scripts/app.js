@@ -3032,7 +3032,7 @@ function testImages(data) {
 }
 getMarvelResponse();
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
+//# sourceURL=/Volumes/KEKS 01_04/Uni/Medieninformatik/Projektseminar 1: Mediengestaltung - Informationsvisualisierung/Projekt/d3-Marvel-Who-is-who/scripts/app.js
 },{"./timeSlider":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3046,5 +3046,5 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
 });
 ;
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/timeSlider.js
+//# sourceURL=/Volumes/KEKS 01_04/Uni/Medieninformatik/Projektseminar 1: Mediengestaltung - Informationsvisualisierung/Projekt/d3-Marvel-Who-is-who/scripts/timeSlider.js
 },{}]},{},[4,1]);
