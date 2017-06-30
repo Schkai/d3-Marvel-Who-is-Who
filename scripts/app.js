@@ -1,5 +1,5 @@
 import {
-  TimeSlider
+  TimeSlider, drawChart, loadData, drawData
 } from './timeSlider';
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
@@ -11,52 +11,8 @@ var heroesData = [];
 
 
 function draw(data) {
-  /* d3.select("#main")
-    .append("circle")
-    .attr("cx", 50)
-    .attr("cy", 50)
-    .attr("r", 50);
-*/
 
-
-  d3.json("./../data/heroes.json", function (data) {
-    heroesData = data;
-    console.log(heroesData);
-
-    var canvas = d3.select("#container").append("svg")
-      .attr("width", 1000)
-      .attr("height", 700);
-
-
-    canvas.selectAll("rect")
-      .data(heroesData)
-      .enter()
-      .append("rect")
-      .attr("width", 200)
-      .attr("height", 50)
-      .attr("y", function (d, i) {
-        return i * 80;
-      })
-      .attr("fill", "red")
-
-    canvas.selectAll("text")
-      .data(data)
-      .enter()
-      .append("text")
-      .attr("fill", "#ffffff")
-      .attr("y", function (d, i) {
-        return i * 80 + 30;
-      })
-      .attr("x", 5)
-      .text(function (d) {
-        console.log(d.name);
-        return d.name;
-
-      })
-  });
-
-
-
+  loadData();
 
 d3.select(document.body)
   .append('div')
@@ -67,6 +23,9 @@ d3.select('slider').append('h3').text('You selected data for:');
 
 }
 
+//drawChart();
+
+drawData();
 draw();
 
 
