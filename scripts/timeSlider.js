@@ -2,6 +2,7 @@ var yearOutput = d3.select(document.body).append('h2');
 
 var heroesData = [];
 var canvas;
+var rectangles;
 var currentYear;
 
 var TimeSlider =  chroniton()
@@ -13,25 +14,29 @@ var TimeSlider =  chroniton()
           console.log(yearNameFormat(d));
           yearOutput.text(yearNameFormat(d));
           currentYear = yearNameFormat(d);
+          clearCanvas();
           drawData();
           return yearNameFormat(d);
         });
 
-
-function drawData() {
-
-
-     canvas = d3.select("#container").append("svg")
+function createCanvas(){
+  canvas = d3.selectAll("#main").append("svg")
       .attr("class","content")
       .attr("width", 1000)
       .attr("height", 700);
+}
 
-
-    canvas.selectAll("rect")
+function drawData() {
+    var rectGroup;
+    var rect;
+    var text;
+    rectGroup = canvas.selectAll("g")
       .data(heroesData)
       .enter()
-      .append("rect")
+      .append("g")
       .filter(function(d) { return d.year == currentYear })
+
+      rect = rectGroup.append("rect")
       .attr("width", 200)
       .attr("height", 50)
       .attr("y", function (d, i) {
@@ -39,7 +44,20 @@ function drawData() {
       })
       .attr("fill", "red")
 
-    canvas.selectAll("text")
+      text = rectGroup.append("text")
+      .filter(function(d) { return d.year == currentYear })
+      .attr("fill", "#ffffff")
+      .attr("y", function (d, i) {
+        return i * 80 + 30;
+      })
+      .attr("x", 5)
+      .text(function (d) {
+        console.log(d.name+" "+ currentYear);
+        return d.name;
+
+      });
+
+    /*canvas.selectAll("text")
       .data(heroesData)
       .enter()
       .append("text")
@@ -53,11 +71,11 @@ function drawData() {
         console.log(d.name+" "+ currentYear);
         return d.name;
 
-      });
+      });*/
 }
 
 function clearCanvas(){
-  d3.selectAll("content").remove();
+  canvas.selectAll("g").remove();
 }
 
 function loadData(){
@@ -72,4 +90,4 @@ function loadData(){
 
 
 
-export { TimeSlider, drawData, loadData }
+export { TimeSlider, drawData, loadData, createCanvas }

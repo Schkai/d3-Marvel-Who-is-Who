@@ -1,5 +1,5 @@
 import {
-  TimeSlider, drawChart, loadData, drawData
+  TimeSlider, drawChart, loadData, drawData, createCanvas
 } from './timeSlider';
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
@@ -12,20 +12,22 @@ var heroesData = [];
 
 function draw(data) {
 
+  createCanvas();
   loadData();
 
-d3.select(document.body)
-  .append('div')
-  .classed('slider', true)
-  .call(TimeSlider);
+  d3.select(document.body)
+    .append('div')
+    .classed('slider', true)
+    .call(TimeSlider);
 
-d3.select('slider').append('h3').text('You selected data for:');
+  d3.select('slider').append('h3').text('You selected data for:');
+
+  drawData();
 
 }
 
 //drawChart();
 
-drawData();
 draw();
 
 
@@ -80,4 +82,4 @@ function testImages(data) {
   $('#results').append(output);
 }
 
-getMarvelResponse();
+//getMarvelResponse();

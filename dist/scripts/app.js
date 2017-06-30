@@ -2988,17 +2988,19 @@ var $__0 = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__tim
     TimeSlider = $__0.TimeSlider,
     drawChart = $__0.drawChart,
     loadData = $__0.loadData,
-    drawData = $__0.drawData;
+    drawData = $__0.drawData,
+    createCanvas = $__0.createCanvas;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
 function draw(data) {
+  createCanvas();
   loadData();
   d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
+  drawData();
 }
-drawData();
 draw();
 function getMarvelResponse() {
   var ts = new Date().getTime();
@@ -3035,9 +3037,8 @@ function testImages(data) {
   output += '</ul>';
   $('#results').append(output);
 }
-getMarvelResponse();
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
 },{"./timeSlider":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3050,28 +3051,39 @@ Object.defineProperties(exports, {
   loadData: {get: function() {
       return loadData;
     }},
+  createCanvas: {get: function() {
+      return createCanvas;
+    }},
   __esModule: {value: true}
 });
 var yearOutput = d3.select(document.body).append('h2');
 var heroesData = [];
 var canvas;
+var rectangles;
 var currentYear;
 var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
   var yearNameFormat = d3.time.format("%Y");
   console.log(yearNameFormat(d));
   yearOutput.text(yearNameFormat(d));
   currentYear = yearNameFormat(d);
+  clearCanvas();
   drawData();
   return yearNameFormat(d);
 });
+function createCanvas() {
+  canvas = d3.selectAll("#main").append("svg").attr("class", "content").attr("width", 1000).attr("height", 700);
+}
 function drawData() {
-  canvas = d3.select("#container").append("svg").attr("class", "content").attr("width", 1000).attr("height", 700);
-  canvas.selectAll("rect").data(heroesData).enter().append("rect").filter(function(d) {
+  var rectGroup;
+  var rect;
+  var text;
+  rectGroup = canvas.selectAll("g").data(heroesData).enter().append("g").filter(function(d) {
     return d.year == currentYear;
-  }).attr("width", 200).attr("height", 50).attr("y", function(d, i) {
+  });
+  rect = rectGroup.append("rect").attr("width", 200).attr("height", 50).attr("y", function(d, i) {
     return i * 80;
   }).attr("fill", "red");
-  canvas.selectAll("text").data(heroesData).enter().append("text").filter(function(d) {
+  text = rectGroup.append("text").filter(function(d) {
     return d.year == currentYear;
   }).attr("fill", "#ffffff").attr("y", function(d, i) {
     return i * 80 + 30;
@@ -3081,7 +3093,7 @@ function drawData() {
   });
 }
 function clearCanvas() {
-  d3.selectAll("content").remove();
+  canvas.selectAll("g").remove();
 }
 function loadData() {
   d3.json("./../data/heroes.json", function(data) {
@@ -3092,5 +3104,5 @@ function loadData() {
 }
 ;
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/timeSlider.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/timeSlider.js
 },{}]},{},[4,1]);
