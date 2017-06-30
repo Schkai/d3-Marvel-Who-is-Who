@@ -4,7 +4,6 @@ import requests
 from hashlib import md5
 from time import time
 
-
 class MarvelpyError(Exception):
     pass
 
@@ -25,7 +24,7 @@ class Marvel(object):
         ts = str(time())
         hashed_key = md5(str(ts + self._private_key + self._api_key).encode('utf-8'))
         if isinstance(params, dict):
-            params.update({'apikey': str(self._api_key), 'ts': ts, 'hash': hashed_key.hexdigest()})
+            params.update({'apikey': str(self._api_key), 'ts': ts, 'hash': hashed_key.hexdigest(), 'limit': 100})
         headers = {'Accept': 'application/json'}
         if etag:
             headers.update({'If-None-Match': etag})
