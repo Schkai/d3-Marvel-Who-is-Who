@@ -13,7 +13,6 @@ var TimeSlider =  chroniton()
           console.log(yearNameFormat(d));
           yearOutput.text(yearNameFormat(d));
           currentYear = yearNameFormat(d);
-          clearCanvas();
           drawData();
           return yearNameFormat(d);
         });

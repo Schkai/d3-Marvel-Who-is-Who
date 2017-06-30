@@ -3061,7 +3061,6 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
   console.log(yearNameFormat(d));
   yearOutput.text(yearNameFormat(d));
   currentYear = yearNameFormat(d);
-  clearCanvas();
   drawData();
   return yearNameFormat(d);
 });
