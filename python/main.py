@@ -19,7 +19,7 @@ event_call = []
 
 # get characters
 i = 0
-while i < 4000:
+while i <= 1500:
     params_character = {'offset': i, 'limit': LIMIT}
     params_event = {'limit': LIMIT}
     request_responses.append(marvel.characters(params=params_character))
@@ -56,7 +56,7 @@ def getMeets(heroes, events):
                 if hero['name'] == event.get('characters').get('items')[i]['name']:
                     for j in range(0, len(event.get('characters').get('items'))):
                         other_character = event.get('characters').get('items')[j]['name']
-                        if other_character != hero['name']:
+                        if other_character != hero['name'] and other_character not in hero.get('meets'):
                             hero.get('meets').append(other_character)
     return heroes
 
