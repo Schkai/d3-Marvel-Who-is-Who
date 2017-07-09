@@ -1,3 +1,6 @@
+# Adapted from: https://github.com/ddominguez/marvelpy
+# Some changes have been made
+
 from marvelpy import Marvel
 import json
 import re
@@ -11,8 +14,17 @@ heroes = []
 
 marvel = Marvel(api_key=PUBLIC_KEY, private_key=PRIV_KEY)
 
+request_responses = []
+event_call = []
+
 # get characters
-response = marvel.characters()
+i = 0
+while i < 4000:
+    params_character = {'offset': i, 'limit': LIMIT}
+    params_event = {'limit': LIMIT}
+    request_responses.append(marvel.characters(params=params_character))
+    event_call.append(marvel.events(params=params_event))
+    i += 100
 # response is a Response object which contains a server's response to an HTTP request
 #print(response.text) # Content of the response, in unicode.
 #print(response.status_code) # status code
@@ -49,23 +61,20 @@ def getMeets(heroes, events):
     return heroes
 
 def writeToJsonFile(heroes):
-    with open('data/heroes_by_python.json', 'w') as outfile:
+    with open('../data/heroes_by_python.json', 'w') as outfile:
         json.dump(heroes, outfile)
 
 
-if response.status_code == 200:
-    event_call = marvel.events()
-    if event_call.status_code == 200:
-        chars = json.loads(response.text)
-        events = json.loads(event_call.text)
+if request_responses[0].status_code == 200:
+    for i in range(0, len(request_responses)):
+        chars = json.loads(request_responses[i].text)
+        events = json.loads(event_call[i].text)
         heroes = getNameAndDetails(chars)
         heroes = getYears(chars)
         heroes = getMeets(heroes, events.get("data").get("results"))
-        writeToJsonFile(heroes)
-    else:
-        print("ERROR AT LOADING EVENTS! STATUS CODE: " + str(event.status_code))
+    writeToJsonFile(heroes)
 else:
-    print("ERROR AT LOADING CHARACTERS! STATUS CODE: " + str(response.status_code))
+    print("ERROR AT LOADING CHARACTERS!")
 
 
 '''

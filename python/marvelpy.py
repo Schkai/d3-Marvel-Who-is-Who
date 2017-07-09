@@ -24,7 +24,7 @@ class Marvel(object):
         ts = str(time())
         hashed_key = md5(str(ts + self._private_key + self._api_key).encode('utf-8'))
         if isinstance(params, dict):
-            params.update({'apikey': str(self._api_key), 'ts': ts, 'hash': hashed_key.hexdigest(), 'limit': 100})
+            params.update({'apikey': str(self._api_key), 'ts': ts, 'hash': hashed_key.hexdigest()})
         headers = {'Accept': 'application/json'}
         if etag:
             headers.update({'If-None-Match': etag})
