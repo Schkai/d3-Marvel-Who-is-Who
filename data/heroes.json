@@ -1,10 +1,10 @@
 [{
 		"name": "Wolverine",
 		"year": "1974",
-		"meets": ["Hulk"]
+		"meets": ["Hulk, Cyclops"]
 	},
 	{
-		"name": "Wolverine",
+		"name": "Tony Stark",
 		"year": "1975",
 		"meets": ["Spiderman"]
 	},
@@ -14,7 +14,7 @@
 		"meets": ["Deadpool", "Cyclops"]
 	},
 	{
-		"name": "Hulk",
+		"name": "Cyclops",
 		"year": "1974",
 		"meets": ["Wolverine"]
 	},
@@ -24,7 +24,7 @@
 		"meets": ["Spiderman"]
 	},
 	{
-		"name": "Hulk",
+		"name": "Deadpool 2",
 		"year": "1976",
 		"meets": ["Deadpool"]
 	},

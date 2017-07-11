@@ -1,0 +1,27 @@
+
+[
+  {
+    "name": "Wolverine",
+    "meets": [
+      "Iron Man", "Darth Vader"
+    ]
+  },
+  {
+    "name": "Darth Vader",
+    "meets": [
+      "Wolverine"
+    ]
+  },
+  {
+    "name": "Han Solo",
+    "meets": [
+      "Wolverine"
+    ]
+  },
+    {
+    "name": "Iron Man",
+    "meets": [
+      "Han Solo"
+    ]
+  }
+]

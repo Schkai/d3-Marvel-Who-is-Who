@@ -13,12 +13,11 @@ var TimeSlider =  chroniton()
           console.log(yearNameFormat(d));
           yearOutput.text(yearNameFormat(d));
           currentYear = yearNameFormat(d);
-          drawData();
           return yearNameFormat(d);
         });
 
 
-function drawData() {
+/*function drawData() {
 
 
      canvas = d3.select("#container").append("svg")
@@ -55,21 +54,24 @@ function drawData() {
 
       });
 }
+    
 
 function clearCanvas(){
   d3.selectAll("content").remove();
-}
-
+} */
+/*
 function loadData(){
   d3.json("./../data/heroes.json", function (data) {
     heroesData = data;
     console.log(heroesData);
     console.log(currentYear);
 });
+  
 }
+*/
 
 
 
 
 
-export { TimeSlider, drawData, loadData }
+export { TimeSlider/*, drawData, loadData*/ }

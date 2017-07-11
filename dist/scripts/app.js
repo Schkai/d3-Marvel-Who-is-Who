@@ -2983,22 +2983,19 @@ process.umask = function() { return 0; };
 
 },{}],4:[function(require,module,exports){
 "use strict";
-var $__timeSlider__;
-var $__0 = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}),
-    TimeSlider = $__0.TimeSlider,
-    drawChart = $__0.drawChart,
-    loadData = $__0.loadData,
-    drawData = $__0.drawData;
+var $__timeSlider__,
+    $__visual__;
+var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
+var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
 function draw(data) {
-  loadData();
   d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
-drawData();
+drawVisuals();
 draw();
 function getMarvelResponse() {
   var ts = new Date().getTime();
@@ -3038,17 +3035,11 @@ function testImages(data) {
 getMarvelResponse();
 
 //# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
-},{"./timeSlider":5}],5:[function(require,module,exports){
+},{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
   TimeSlider: {get: function() {
       return TimeSlider;
-    }},
-  drawData: {get: function() {
-      return drawData;
-    }},
-  loadData: {get: function() {
-      return loadData;
     }},
   __esModule: {value: true}
 });
@@ -3061,36 +3052,120 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
   console.log(yearNameFormat(d));
   yearOutput.text(yearNameFormat(d));
   currentYear = yearNameFormat(d);
-  drawData();
   return yearNameFormat(d);
 });
-function drawData() {
-  canvas = d3.select("#container").append("svg").attr("class", "content").attr("width", 1000).attr("height", 700);
-  canvas.selectAll("rect").data(heroesData).enter().append("rect").filter(function(d) {
-    return d.year == currentYear;
-  }).attr("width", 200).attr("height", 50).attr("y", function(d, i) {
-    return i * 80;
-  }).attr("fill", "red");
-  canvas.selectAll("text").data(heroesData).enter().append("text").filter(function(d) {
-    return d.year == currentYear;
-  }).attr("fill", "#ffffff").attr("y", function(d, i) {
-    return i * 80 + 30;
-  }).attr("x", 5).text(function(d) {
-    console.log(d.name + " " + currentYear);
-    return d.name;
-  });
-}
-function clearCanvas() {
-  d3.selectAll("content").remove();
-}
-function loadData() {
-  d3.json("./../data/heroes.json", function(data) {
-    heroesData = data;
-    console.log(heroesData);
-    console.log(currentYear);
-  });
-}
 ;
 
 //# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/timeSlider.js
+},{}],6:[function(require,module,exports){
+"use strict";
+Object.defineProperties(exports, {
+  drawVisuals: {get: function() {
+      return drawVisuals;
+    }},
+  __esModule: {value: true}
+});
+function drawVisuals() {
+  var diameter = 960,
+      radius = diameter / 2,
+      innerRadius = radius - 120;
+  var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
+    return d.size;
+  });
+  var bundle = d3.layout.bundle();
+  var line = d3.svg.line.radial().interpolate("bundle").tension(.85).radius(function(d) {
+    return d.y;
+  }).angle(function(d) {
+    return d.x / 180 * Math.PI;
+  });
+  var svg = d3.select("body").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")");
+  var link = svg.append("g").selectAll(".link"),
+      node = svg.append("g").selectAll(".node");
+  d3.json("../data/testBundle.json", function(error, classes) {
+    if (error)
+      throw error;
+    var nodes = cluster.nodes(packageHierarchy(classes)),
+        links = packageImports(nodes);
+    link = link.data(bundle(links)).enter().append("path").each(function(d) {
+      d.source = d[0], d.target = d[d.length - 1];
+    }).attr("class", "link").attr("d", line);
+    node = node.data(nodes.filter(function(n) {
+      return !n.children;
+    })).enter().append("text").attr("class", "node").attr("dy", ".31em").attr("transform", function(d) {
+      return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
+    }).style("text-anchor", function(d) {
+      return d.x < 180 ? "start" : "end";
+    }).text(function(d) {
+      return d.key;
+    }).on("click", mouseclick);
+  });
+  function mouseclick(d) {
+    node.each(function(n) {
+      n.target = n.source = false;
+    });
+    link.classed("link--target", function(l) {
+      if (l.target === d)
+        return l.source.source = true;
+    }).classed("link--source", function(l) {
+      if (l.source === d)
+        return l.target.target = true;
+    }).filter(function(l) {
+      return l.target === d || l.source === d;
+    }).each(function() {
+      this.parentNode.appendChild(this);
+    });
+    node.classed("node--target", function(n) {
+      return n.target;
+    }).classed("node--source", function(n) {
+      return n.source;
+    });
+  }
+  function mouseouted(d) {
+    link.classed("link--target", false).classed("link--source", false);
+    node.classed("node--target", false).classed("node--source", false);
+  }
+  d3.select(self.frameElement).style("height", diameter + "px");
+  function packageHierarchy(classes) {
+    var map = {};
+    function find(name, data) {
+      var node = map[name],
+          i;
+      if (!node) {
+        node = map[name] = data || {
+          name: name,
+          children: []
+        };
+        if (name.length) {
+          node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
+          node.parent.children.push(node);
+          node.key = name.substring(i + 1);
+        }
+      }
+      return node;
+    }
+    classes.forEach(function(d) {
+      find(d.name, d);
+    });
+    return map[""];
+  }
+  function packageImports(nodes) {
+    var map = {},
+        imports = [];
+    nodes.forEach(function(d) {
+      map[d.name] = d;
+    });
+    nodes.forEach(function(d) {
+      if (d.meets)
+        d.meets.forEach(function(i) {
+          imports.push({
+            source: map[d.name],
+            target: map[i]
+          });
+        });
+    });
+    return imports;
+  }
+}
+
+//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/visual.js
 },{}]},{},[4,1]);
