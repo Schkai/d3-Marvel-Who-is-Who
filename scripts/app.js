@@ -1,6 +1,9 @@
 import {
   TimeSlider, drawChart, loadData, drawData, createCanvas
 } from './timeSlider';
+/*import{
+  loadData, createCanvas, drawData
+} from './edgeBuilding';*/
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
