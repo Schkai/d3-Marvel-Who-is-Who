@@ -2983,17 +2983,19 @@ process.umask = function() { return 0; };
 
 },{}],4:[function(require,module,exports){
 "use strict";
-var $__timeSlider__;
+var $__timeSlider__,
+    $__visual__;
 var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
+var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
+var heroesData = [];
 function draw(data) {
-  d3.select("#main").append("circle").attr("cx", 50).attr("cy", 50).attr("r", 50);
-  d3.select(document.body).append('h3').text('You selected data for:');
-  var yearOutput = d3.select(document.body).append('h2');
-  d3.select(document.body).append('div').call(TimeSlider);
+  d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
+  d3.select('slider').append('h3').text('You selected data for:');
 }
+drawVisuals();
 draw();
 function getMarvelResponse() {
   var ts = new Date().getTime();
@@ -3032,8 +3034,6 @@ function testImages(data) {
 }
 getMarvelResponse();
 
-//# sourceURL=/Volumes/KEKS 01_04/Uni/Medieninformatik/Projektseminar 1: Mediengestaltung - Informationsvisualisierung/Projekt/d3-Marvel-Who-is-who/scripts/app.js
-},{"./timeSlider":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
   TimeSlider: {get: function() {
@@ -3041,10 +3041,18 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
+var yearOutput = d3.select(document.body).append('h2');
+var heroesData = [];
+var canvas;
+var currentYear;
 var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
   var yearNameFormat = d3.time.format("%Y");
+  console.log(yearNameFormat(d));
+  yearOutput.text(yearNameFormat(d));
+  currentYear = yearNameFormat(d);
+  return yearNameFormat(d);
 });
 ;
 
-//# sourceURL=/Volumes/KEKS 01_04/Uni/Medieninformatik/Projektseminar 1: Mediengestaltung - Informationsvisualisierung/Projekt/d3-Marvel-Who-is-who/scripts/timeSlider.js
+
 },{}]},{},[4,1]);
