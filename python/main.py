@@ -64,6 +64,13 @@ def writeToJsonFile(heroes):
     with open('../data/heroes_by_python.json', 'w') as outfile:
         json.dump(heroes, outfile)
 
+def deleteEveryoneWithoutMeets(heroes):
+    newHeroes = []
+    for hero in heroes:
+        if len(hero.get('meets')) > 0:
+            newHeroes.append(hero)
+    return newHeroes
+
 
 if request_responses[0].status_code == 200:
     for i in range(0, len(request_responses)):
@@ -72,6 +79,7 @@ if request_responses[0].status_code == 200:
         heroes = getNameAndDetails(chars)
         heroes = getYears(chars)
         heroes = getMeets(heroes, events.get("data").get("results"))
+    heroes = deleteEveryoneWithoutMeets(heroes)
     writeToJsonFile(heroes)
 else:
     print("ERROR AT LOADING CHARACTERS!")
