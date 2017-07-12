@@ -1,7 +1,7 @@
 export function drawVisuals()  {
 
 
-var diameter = 960,
+var diameter = 840,
     radius = diameter / 2,
     innerRadius = radius - 120;
 
@@ -14,7 +14,7 @@ var bundle = d3.layout.bundle();
 
 var line = d3.svg.line.radial()
     .interpolate("bundle")
-    .tension(.85)
+    .tension(.90)
     .radius(function(d) { return d.y; })
     .angle(function(d) { return d.x / 180 * Math.PI; });
 
@@ -27,7 +27,7 @@ var svg = d3.select("body").append("svg")
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
-d3.json("../data/testBundle.json", function(error, classes) {
+d3.json("../data/test.json", function(error, classes) {
   if (error) throw error;
 
   var nodes = cluster.nodes(packageHierarchy(classes)),
@@ -65,6 +65,8 @@ function mouseclick(d) {
   node
       .classed("node--target", function(n) { return n.target; })
       .classed("node--source", function(n) { return n.source; });
+
+  console.log(d.name);
 }
 
 function mouseouted(d) {
@@ -79,7 +81,6 @@ function mouseouted(d) {
 
 d3.select(self.frameElement).style("height", diameter + "px");
 
-// Lazily construct the package hierarchy from class names.
 function packageHierarchy(classes) {
   var map = {};
 

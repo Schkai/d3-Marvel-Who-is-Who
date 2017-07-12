@@ -3066,14 +3066,14 @@ Object.defineProperties(exports, {
   __esModule: {value: true}
 });
 function drawVisuals() {
-  var diameter = 960,
+  var diameter = 840,
       radius = diameter / 2,
       innerRadius = radius - 120;
   var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
     return d.size;
   });
   var bundle = d3.layout.bundle();
-  var line = d3.svg.line.radial().interpolate("bundle").tension(.85).radius(function(d) {
+  var line = d3.svg.line.radial().interpolate("bundle").tension(.90).radius(function(d) {
     return d.y;
   }).angle(function(d) {
     return d.x / 180 * Math.PI;
@@ -3081,7 +3081,7 @@ function drawVisuals() {
   var svg = d3.select("body").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")");
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
-  d3.json("../data/testBundle.json", function(error, classes) {
+  d3.json("../data/test.json", function(error, classes) {
     if (error)
       throw error;
     var nodes = cluster.nodes(packageHierarchy(classes)),
@@ -3119,6 +3119,7 @@ function drawVisuals() {
     }).classed("node--source", function(n) {
       return n.source;
     });
+    console.log(d.name);
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);
