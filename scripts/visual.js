@@ -1,7 +1,7 @@
 export function drawVisuals()  {
 
 
-var diameter = 840,
+var diameter = 2160,
     radius = diameter / 2,
     innerRadius = radius - 120;
 
@@ -14,7 +14,7 @@ var bundle = d3.layout.bundle();
 
 var line = d3.svg.line.radial()
     .interpolate("bundle")
-    .tension(.90)
+    .tension(.45)
     .radius(function(d) { return d.y; })
     .angle(function(d) { return d.x / 180 * Math.PI; });
 
@@ -27,7 +27,7 @@ var svg = d3.select("body").append("svg")
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
-d3.json("../data/test.json", function(error, classes) {
+d3.json("../data/heroes_by_python.json", function(error, classes) {
   if (error) throw error;
 
   var nodes = cluster.nodes(packageHierarchy(classes)),
@@ -63,16 +63,16 @@ function mouseclick(d) {
       .each(function() { this.parentNode.appendChild(this); });
 
   node
-      .classed("node--target", function(n) { return n.target; })
-      .classed("node--source", function(n) { return n.source; });
+      .classed("node--target", function(n) { return n.target; }) //set the class
+      .classed("node--source", function(n) { return n.source; });//set the class
 
   console.log(d.name);
 }
 
 function mouseouted(d) {
   link
-      .classed("link--target", false)
-      .classed("link--source", false);
+      .classed("link--target", false) //removes the class of previously clicked nodes
+      .classed("link--source", false); //removes the class of previously clicked nodes
 
   node
       .classed("node--target", false)
