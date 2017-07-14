@@ -18,7 +18,7 @@ var line = d3.svg.line.radial()
     .radius(function(d) { return d.y; })
     .angle(function(d) { return d.x / 180 * Math.PI; });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.selectAll("div").filter("#main").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
   .append("g")
@@ -53,6 +53,10 @@ d3.json("../data/test.json", function(error, classes) {
 });
 
 function mouseclick(d) {
+  var backgrund = d3.selectAll("div").filter("#infobox")
+
+  backgrund.selectAll("g").remove()
+
   node
       .each(function(n) { n.target = n.source = false; });
 
@@ -67,6 +71,28 @@ function mouseclick(d) {
       .classed("node--source", function(n) { return n.source; });
 
   console.log(d.name);
+
+  var group = d3.selectAll("div").filter("#infobox").append("g");
+  
+  group.append("img")
+    .attr("src", d.thumbnail)
+    .attr("width", 200)
+    .attr("height", 200);
+  
+  group.append("text")
+    .text(d.name);
+
+  group.append("text")
+    .text(d.details);
+
+
+    //.attr("width", 200)
+    //.attr("height", 200)
+  /*var g = backgrund.append("svg")
+    .append("g")
+    .append("text")
+      .text(d.details)
+      .style('fill', 'darkOrange');*/
 }
 
 function mouseouted(d) {
