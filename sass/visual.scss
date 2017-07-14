@@ -3,29 +3,29 @@
   fill: #bbb;
 }
 
+.node:hover {
+  fill: #000;
+}
 
 .link {
-  stroke: steelblue;
-  stroke-opacity: .4;
+  stroke: #bdc3c7;
+  stroke-opacity: 0.4;
   fill: none;
   pointer-events: none;
 }
 
+.node:hover,
 .node--source,
 .node--target {
   font-weight: 700;
 }
 
 .node--source {
-  fill: #2ca02c;
+  fill: #3498db;
 }
 
 .node--target {
-  fill: #d62728;
-}
-
-.node--click {
-  fill: #00BFFF;
+  fill: #3498db;
 }
 
 .link--source,
@@ -35,9 +35,9 @@
 }
 
 .link--source {
-  stroke: #d62728;
+  stroke: #3498db;
 }
 
 .link--target {
-  stroke: #2ca02c;
+  stroke: #3498db;
 }
