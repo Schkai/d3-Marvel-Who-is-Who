@@ -5,8 +5,83 @@ from './timeSlider';
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
+var searchBox, currentData;
 
 var marvelData = [];
+
+function init() {
+
+    //searchBox = document.getElementById("characterSearch"); 
+    //    searchBox.addEventListener("keyup", function (event) {
+    //        if (event.keyCode == 13) {
+    //            // search(this.value);
+    //        }
+    //    });
+
+
+    var options = {
+        data: ["blue", "green", "pink", "red", "yellow"]
+    };
+
+    $("#basics").autocomplete(options);
+
+
+    loadJSON('/data/heroes.json',
+        function (data) {
+            currentData = data;
+
+        },
+        function (xhr) {
+            console.error(xhr);
+        }
+    );
+
+    //    searchBox = document.getElementById("characterSearch");
+    //    new Awesomplete(searchBox, {
+    //        list: ["Ada", "Java", "JavaScript", "Brainfuck", "LOLCODE", "Node.js", "Ruby on Rails"]
+    //    });
+
+
+    //    var countries = [
+    //        {
+    //            value: 'Andorra',
+    //            data: 'AD'
+    //        },
+    //    // ...
+    //        {
+    //            value: 'Zimbabwe',
+    //            data: 'ZZ'
+    //        }
+    //];
+
+    //    $('#characterSearch').autocomplete({
+    //        lookup: countries,
+    //        onSelect: function (suggestion) {
+    //            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    //        }
+    //    });
+}
+
+function loadJSON(path, success, error) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (success)
+                    success(JSON.parse(xhr.responseText));
+            } else {
+                if (error)
+                    error(xhr);
+            }
+        }
+    };
+    xhr.open("GET", path, true);
+    xhr.send();
+}
+
+function search(input) {
+
+}
 
 function draw() {
     d3.select("#main")
@@ -21,18 +96,6 @@ function draw() {
     d3.select(document.body)
         .append('div')
         .call(TimeSlider)
-
-    //
-    //    console.log(marvelData.data.results);
-    //
-    //    var myChart;
-    //    myChart = d3.select("#main");
-    //    selection_g = myChart.selectAll("g").data(marvelData.data.results);
-    //    selectEnter = selection_g.enter().append("g");
-
-    //        var entryList = {
-    //            children: []
-    //        };
 }
 
 function getMarvelResponse() {
@@ -88,4 +151,5 @@ function testImages(data) {
     $('#results').append(output);
 }
 
+init();
 getMarvelResponse();

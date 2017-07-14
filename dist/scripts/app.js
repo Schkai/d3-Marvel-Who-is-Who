@@ -2987,7 +2987,35 @@ var $__timeSlider__;
 var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
+var searchBox,
+    currentData;
 var marvelData = [];
+function init() {
+  var options = {data: ["blue", "green", "pink", "red", "yellow"]};
+  $("#basics").autocomplete(options);
+  loadJSON('/data/heroes.json', function(data) {
+    currentData = data;
+  }, function(xhr) {
+    console.error(xhr);
+  });
+}
+function loadJSON(path, success, error) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        if (success)
+          success(JSON.parse(xhr.responseText));
+      } else {
+        if (error)
+          error(xhr);
+      }
+    }
+  };
+  xhr.open("GET", path, true);
+  xhr.send();
+}
+function search(input) {}
 function draw() {
   d3.select("#main").append("circle").attr("cx", 50).attr("cy", 50).attr("r", 50);
   d3.select(document.body).append('h3').text('You selected data for:');
@@ -3032,6 +3060,7 @@ function testImages(data) {
   output += '</ul>';
   $('#results').append(output);
 }
+init();
 getMarvelResponse();
 
 //# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
@@ -3047,6 +3076,11 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
   var yearNameFormat = d3.time.format("%Y");
   console.log("date: " + yearNameFormat(d));
   d3.json("/data/heroes.json", function(data) {
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].year == yearNameFormat(d)) {
+        console.log(data[i]);
+      }
+    }
     console.log(data);
   });
 });

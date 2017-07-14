@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "browserify": "^14.4.0",
+    "easy-autocomplete": "^1.3.5",
     "es6ify": "^1.6.0",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
