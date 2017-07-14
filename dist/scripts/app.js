@@ -3034,7 +3034,7 @@ function testImages(data) {
 }
 getMarvelResponse();
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
 },{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3056,7 +3056,7 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
 });
 ;
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/timeSlider.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/timeSlider.js
 },{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3066,22 +3066,22 @@ Object.defineProperties(exports, {
   __esModule: {value: true}
 });
 function drawVisuals() {
-  var diameter = 2160,
+  var diameter = 840,
       radius = diameter / 2,
       innerRadius = radius - 120;
   var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
     return d.size;
   });
   var bundle = d3.layout.bundle();
-  var line = d3.svg.line.radial().interpolate("bundle").tension(.45).radius(function(d) {
+  var line = d3.svg.line.radial().interpolate("bundle").tension(.90).radius(function(d) {
     return d.y;
   }).angle(function(d) {
     return d.x / 180 * Math.PI;
   });
-  var svg = d3.select("body").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")");
+  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")");
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
-  d3.json("../data/heroes_by_python.json", function(error, classes) {
+  d3.json("../data/test.json", function(error, classes) {
     if (error)
       throw error;
     var nodes = cluster.nodes(packageHierarchy(classes)),
@@ -3100,6 +3100,8 @@ function drawVisuals() {
     }).on("click", mouseclick);
   });
   function mouseclick(d) {
+    var backgrund = d3.selectAll("div").filter("#infobox");
+    backgrund.selectAll("g").remove();
     node.each(function(n) {
       n.target = n.source = false;
     });
@@ -3120,6 +3122,10 @@ function drawVisuals() {
       return n.source;
     });
     console.log(d.name);
+    var group = d3.selectAll("div").filter("#infobox").append("g");
+    group.append("img").attr("src", d.thumbnail).attr("width", 200).attr("height", 200);
+    group.append("text").text(d.name);
+    group.append("text").text(d.details);
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);
@@ -3168,5 +3174,5 @@ function drawVisuals() {
   }
 }
 
-//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/visual.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
 },{}]},{},[4,1]);
