@@ -37,16 +37,16 @@ def getNameAndDetails(chars):
         name = chars.get("data").get("results")[i]['name']
         details = chars.get("data").get("results")[i]['description']
         thumbnail = chars.get("data").get("results")[i]['thumbnail']['path'] + "." + chars.get("data").get("results")[i]['thumbnail']['extension']
-        heroes.append({"name": name, "details": details, "thumbnail": thumbnail, "years": [], "meets": []})
+        heroes.append({"name": name, "details": details, "thumbnail": thumbnail, "year_puffer": [], "meets": []})
     return heroes
 
 def getYears(chars):
     for i in range(0, len(chars.get("data").get("results"))):
         for j in range(0, len(chars.get("data").get("results")[i]["comics"]["items"])):
             year = re.findall(r'\d{4}', chars.get("data").get("results")[i]["comics"]["items"][j]['name'])
-            heroes[i].get('years').append(year[0]) if year else ''
-        heroes[i]['years'] = list(set(heroes[i].get('years')))
-        heroes[i]['years'] = sorted(heroes[i]['years'])
+            heroes[i].get('year_puffer').append(year[0]) if year else ''
+        heroes[i]['year_puffer'] = list(set(heroes[i].get('year_puffer')))
+        heroes[i]['year_puffer'] = sorted(heroes[i]['year_puffer'])
     return heroes
 
 def getMeets(heroes, events):
@@ -71,6 +71,21 @@ def deleteEveryoneWithoutMeets(heroes):
             newHeroes.append(hero)
     return newHeroes
 
+def getOnlyFirstAppearance(heroes):
+    firstAppearanceGlobal = 9999;
+    for hero in heroes:
+        if len(hero.get('year_puffer')) > 0:
+            if int(hero.get('year_puffer')[0]) < firstAppearanceGlobal:
+                firstAppearanceGlobal = int(hero.get('year_puffer')[0])
+
+    for hero in heroes:
+        if len(hero.get('year_puffer')) > 0:
+            hero['years'] = str(hero.get('year_puffer')[0])
+        else:
+            hero['years'] = str(firstAppearanceGlobal)
+        hero.pop('year_puffer', None)
+    return heroes
+
 
 if request_responses[0].status_code == 200:
     for i in range(0, len(request_responses)):
@@ -80,6 +95,7 @@ if request_responses[0].status_code == 200:
         heroes = getYears(chars)
         heroes = getMeets(heroes, events.get("data").get("results"))
     heroes = deleteEveryoneWithoutMeets(heroes)
+    heroes = getOnlyFirstAppearance(heroes)
     writeToJsonFile(heroes)
 else:
     print("ERROR AT LOADING CHARACTERS!")
