@@ -73,7 +73,9 @@ function mouseclick(d) {
 
   console.log(d.name);
 
-  var group = background.append("div").style({position : "absolute", left : (radius-200) +'px', top : (radius-200) +'px'}).attr("class","card");
+  var group = background.append("div")
+    .style({position : "absolute", left : (radius-200) +'px', top : (radius-200) +'px'})
+    .attr("class","card");
 
 
   group.append("img")
@@ -90,7 +92,7 @@ function mouseclick(d) {
 
   group.append("p")
     .text(d.years)
-    .attr("class", "card-text");
+    .attr("class", "card-subtitle");
 
   group.append("p")
     .text(d.details)

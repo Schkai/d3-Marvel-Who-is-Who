@@ -3129,7 +3129,7 @@ function drawVisuals() {
     }).attr("class", "card");
     group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
     group.append("h3").text(d.name).attr("class", "card-header");
-    group.append("p").text(d.years).attr("class", "card-text");
+    group.append("p").text(d.years).attr("class", "card-subtitle");
     group.append("p").text(d.details).attr("class", "card-text");
   }
   function mouseouted(d) {
