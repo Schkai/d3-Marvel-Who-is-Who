@@ -3066,22 +3066,22 @@ Object.defineProperties(exports, {
   __esModule: {value: true}
 });
 function drawVisuals() {
-  var diameter = 840,
+  var diameter = 2160,
       radius = diameter / 2,
       innerRadius = radius - 120;
   var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
     return d.size;
   });
   var bundle = d3.layout.bundle();
-  var line = d3.svg.line.radial().interpolate("bundle").tension(.90).radius(function(d) {
+  var line = d3.svg.line.radial().interpolate("bundle").tension(.45).radius(function(d) {
     return d.y;
   }).angle(function(d) {
     return d.x / 180 * Math.PI;
   });
-  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")");
+  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
-  d3.json("../data/test.json", function(error, classes) {
+  d3.json("../data/heroes_by_python.json", function(error, classes) {
     if (error)
       throw error;
     var nodes = cluster.nodes(packageHierarchy(classes)),
@@ -3100,8 +3100,8 @@ function drawVisuals() {
     }).on("click", mouseclick);
   });
   function mouseclick(d) {
-    var backgrund = d3.selectAll("div").filter("#infobox");
-    backgrund.selectAll("g").remove();
+    var background = d3.select("#main");
+    var card = background.selectAll((".card")).remove();
     node.each(function(n) {
       n.target = n.source = false;
     });
@@ -3122,10 +3122,15 @@ function drawVisuals() {
       return n.source;
     });
     console.log(d.name);
-    var group = d3.selectAll("div").filter("#infobox").append("g");
-    group.append("img").attr("src", d.thumbnail).attr("width", 200).attr("height", 200);
-    group.append("text").text(d.name);
-    group.append("text").text(d.details);
+    var group = background.append("div").style({
+      position: "absolute",
+      left: (radius - 200) + 'px',
+      top: (radius - 200) + 'px'
+    }).attr("class", "card");
+    group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
+    group.append("h3").text(d.name).attr("class", "card-header");
+    group.append("p").text(d.years).attr("class", "card-text");
+    group.append("p").text(d.details).attr("class", "card-text");
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);

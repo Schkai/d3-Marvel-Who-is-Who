@@ -22,7 +22,8 @@ var svg = d3.selectAll("div").filter("#main").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
   .append("g")
-    .attr("transform", "translate(" + radius + "," + radius + ")");
+    .attr("transform", "translate(" + radius + "," + radius + ")")
+    .attr("z-index", 1);
 
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
@@ -53,9 +54,9 @@ d3.json("../data/heroes_by_python.json", function(error, classes) {
 });
 
 function mouseclick(d) {
-  var backgrund = d3.selectAll("div").filter("#infobox")
+  var background = d3.select("#main");//.selectAll("svg");
 
-  backgrund.selectAll("g").remove()
+  var card = background.selectAll((".card")).remove();
 
   node
       .each(function(n) { n.target = n.source = false; });
@@ -72,27 +73,29 @@ function mouseclick(d) {
 
   console.log(d.name);
 
-  var group = d3.selectAll("div").filter("#infobox").append("g");
-  
+  var group = background.append("div").style({position : "absolute", left : (radius-200) +'px', top : (radius-200) +'px'}).attr("class","card");
+
+
   group.append("img")
-    .attr("src", d.thumbnail)
-    .attr("width", 200)
-    .attr("height", 200);
+    .attr("class", "card-img-top")
+    .attr("width", 400)
+    .attr("height", 400)
+    .attr("src", d.thumbnail);
+
   
-  group.append("text")
-    .text(d.name);
 
-  group.append("text")
-    .text(d.details);
+  group.append("h3")
+    .text(d.name)
+    .attr("class", "card-header");
 
+  group.append("p")
+    .text(d.years)
+    .attr("class", "card-text");
 
-    //.attr("width", 200)
-    //.attr("height", 200)
-  /*var g = backgrund.append("svg")
-    .append("g")
-    .append("text")
-      .text(d.details)
-      .style('fill', 'darkOrange');*/
+  group.append("p")
+    .text(d.details)
+    .attr("class", "card-text");
+
 }
 
 function mouseouted(d) {
