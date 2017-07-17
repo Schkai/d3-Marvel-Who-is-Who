@@ -1,3 +1,4 @@
+
 export function drawVisuals()  {
 
 
@@ -33,6 +34,7 @@ d3.json("../data/heroes_by_python.json", function(error, classes) {
   var nodes = cluster.nodes(packageHierarchy(classes)),
       links = packageImports(nodes);
 
+
   link = link
       .data(bundle(links))
     .enter().append("path")
@@ -63,10 +65,14 @@ function mouseclick(d) {
       .each(function() { this.parentNode.appendChild(this); });
 
   node
-      .classed("node--target", function(n) { return n.target; }) //set the class
+      .classed("node--target", function(n) { return n.target; }) 
       .classed("node--source", function(n) { return n.source; });//set the class
 
   console.log(d.name);
+  console.log(node);
+  filterYears(node);
+
+  
 }
 
 function mouseouted(d) {
@@ -122,6 +128,13 @@ function packageImports(nodes) {
   });
 
   return imports;
+}
+
+function filterYears(nodes){
+  var tempNodes = nodes.filter(function(d) {
+    return !('years' in d || d.years >= 1602  )
+  });
+  update(tempNodes)
 }
 
 

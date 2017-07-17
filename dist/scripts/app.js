@@ -3047,11 +3047,13 @@ var yearOutput = d3.select(document.body).append('h2');
 var heroesData = [];
 var canvas;
 var currentYear;
+var exportYear;
 var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
   var yearNameFormat = d3.time.format("%Y");
   console.log(yearNameFormat(d));
   yearOutput.text(yearNameFormat(d));
   currentYear = yearNameFormat(d);
+  exportYear = currentYear;
   return yearNameFormat(d);
 });
 ;
@@ -3120,6 +3122,8 @@ function drawVisuals() {
       return n.source;
     });
     console.log(d.name);
+    console.log(node);
+    filterYears(node);
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);
@@ -3165,6 +3169,12 @@ function drawVisuals() {
         });
     });
     return imports;
+  }
+  function filterYears(nodes) {
+    var tempNodes = nodes.filter(function(d) {
+      return !('years' in d || d.years >= 1602);
+    });
+    update(tempNodes);
   }
 }
 
