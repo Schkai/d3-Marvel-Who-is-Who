@@ -1,4 +1,6 @@
-var yearOutput = d3.select(document.body).append('h2');
+var yearOutput = d3.selectAll("div").filter("#marvel").append('div')
+  .attr('class','row')
+  .append('h2');
 
 var heroesData = [];
 var canvas;

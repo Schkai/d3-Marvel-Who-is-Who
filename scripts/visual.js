@@ -20,7 +20,7 @@ var line = d3.svg.line.radial()
 
 var svg = d3.selectAll("div").filter("#main").append("svg")
     .attr("width", diameter)
-    .attr("height", diameter)
+    .attr("height", diameter + 40)
   .append("g")
     .attr("transform", "translate(" + radius + "," + radius + ")")
     .attr("z-index", 1);

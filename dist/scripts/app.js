@@ -2992,7 +2992,7 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
 function draw(data) {
-  d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
+  d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
 drawVisuals();
@@ -3043,7 +3043,7 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var yearOutput = d3.select(document.body).append('h2');
+var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').append('h2');
 var heroesData = [];
 var canvas;
 var currentYear;
@@ -3078,7 +3078,7 @@ function drawVisuals() {
   }).angle(function(d) {
     return d.x / 180 * Math.PI;
   });
-  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
+  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter + 40).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
   d3.json("../data/heroes_by_python.json", function(error, classes) {

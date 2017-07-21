@@ -12,8 +12,9 @@ var heroesData = [];
 
 function draw(data) {
 
-d3.select(document.body)
+d3.selectAll("div").filter("#marvel")
   .append('div')
+  .attr('class', 'row')
   .classed('slider', true)
   .call(TimeSlider);
 
