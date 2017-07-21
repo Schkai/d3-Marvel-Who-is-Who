@@ -3078,7 +3078,7 @@ function drawVisuals() {
   }).angle(function(d) {
     return d.x / 180 * Math.PI;
   });
-  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter + 40).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
+  var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
   d3.json("../data/heroes_by_python.json", function(error, classes) {
@@ -3128,6 +3128,7 @@ function drawVisuals() {
       top: (radius - 200) + 'px'
     }).attr("class", "card");
     group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
+    console.log(d.thumbnail);
     group.append("h3").text(d.name).attr("class", "card-header");
     group.append("p").text(d.years).attr("class", "card-subtitle");
     group.append("p").text(d.details).attr("class", "card-text");

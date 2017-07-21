@@ -15,9 +15,11 @@
 <body style="background-color: black">
 
   <div id="container">
-    <div id="marvel" style="font-family: 'Marvel'; font-weight: 700; color: #F7F7F7; position: relative; top: 10px; width: 100%; text-align: center;">
+    <div id="marvel" class="container">
+    <div class="row" style="font-family: 'Marvel'; font-weight: 700; color: #F7F7F7; position: relative; top: 10px; width: 100%; text-align: center;">
       <h1>Marvel API</h1>
-    <div id="results">
+    </div>
+    <div id="results" class="row">
       <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
     </div>
     </div>
@@ -26,8 +28,12 @@
     </div>
   </div>
 
-  <footer style="font-family: 'Marvel'; font-size: 0.8em; color: #F7F7F7; position: relative; bottom: 10px; width: 100%; text-align: right">
-    <p>Data provided by Marvel. © 2017 MARVEL</p>
+  <footer>
+    <div class="container">
+      <div class="row" style="font-family: 'Marvel'; font-size: 0.8em; color: #F7F7F7; position: relative; bottom: 10px; width: 100%; text-align: right">
+        <p>Data provided by Marvel. © 2017 MARVEL</p>
+      </div>
+    </div>
   </footer>
 
   <script src="https://d3js.org/d3.v3.min.js"></script>

@@ -20,7 +20,7 @@ var line = d3.svg.line.radial()
 
 var svg = d3.selectAll("div").filter("#main").append("svg")
     .attr("width", diameter)
-    .attr("height", diameter + 40)
+    .attr("height", diameter)
   .append("g")
     .attr("transform", "translate(" + radius + "," + radius + ")")
     .attr("z-index", 1);
@@ -84,6 +84,7 @@ function mouseclick(d) {
     .attr("height", 400)
     .attr("src", d.thumbnail);
 
+  console.log(d.thumbnail);
   
 
   group.append("h3")
