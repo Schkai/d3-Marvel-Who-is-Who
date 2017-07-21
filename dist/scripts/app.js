@@ -3090,7 +3090,7 @@ function drawVisuals() {
         links = packageImports(nodes);
     link = link.data(bundle(links)).enter().append("path").each(function(d) {
       d.source = d[0], d.target = d[d.length - 1];
-    }).attr("class", "link").attr("d", line);
+    }).attr("class", "link").attr('visibility', "hidden").attr("d", line);
     node = node.data(nodes.filter(function(n) {
       return !n.children;
     })).enter().append("text").attr("class", "node").attr("dy", ".31em").attr("transform", function(d) {
@@ -3102,6 +3102,7 @@ function drawVisuals() {
     }).on("click", mouseclick);
   });
   function mouseclick(d) {
+    console.log(d);
     node.each(function(n) {
       n.target = n.source = false;
     });
@@ -3121,9 +3122,6 @@ function drawVisuals() {
     }).classed("node--source", function(n) {
       return n.source;
     });
-    console.log(d.name);
-    console.log(node);
-    filterYears(node);
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);
@@ -3170,11 +3168,12 @@ function drawVisuals() {
     });
     return imports;
   }
-  function filterYears(nodes) {
-    var tempNodes = nodes.filter(function(d) {
-      return !('years' in d || d.years >= 1602);
+  function filterYears(nodes, selectedYear) {
+    nodes.filter(function(d) {
+      console.log(d);
+      console.log(d.years >= 1942);
+      return d.years >= selectedYear;
     });
-    update(tempNodes);
   }
 }
 

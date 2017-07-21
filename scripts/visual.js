@@ -1,7 +1,4 @@
-
 export function drawVisuals()  {
-
-
 var diameter = 2160,
     radius = diameter / 2,
     innerRadius = radius - 120;
@@ -40,13 +37,16 @@ d3.json("../data/heroes_by_python.json", function(error, classes) {
     .enter().append("path")
       .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
       .attr("class", "link")
+      .attr('visibility', "hidden")
       .attr("d", line);
 
   node = node
-      .data(nodes.filter(function(n) { return !n.children; }))
+      .data(nodes.filter(function(n) { return !n.children}))
     .enter().append("text")
       .attr("class", "node")
       .attr("dy", ".31em")
+         //   .attr('visibility', "hidden")
+
       .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)"); })
       .style("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .text(function(d) { return d.key; })
@@ -54,7 +54,9 @@ d3.json("../data/heroes_by_python.json", function(error, classes) {
       //.on("mouseout", mouseouted);
 });
 
+
 function mouseclick(d) {
+  console.log(d);
   node
       .each(function(n) { n.target = n.source = false; });
 
@@ -67,12 +69,12 @@ function mouseclick(d) {
   node
       .classed("node--target", function(n) { return n.target; }) 
       .classed("node--source", function(n) { return n.source; });//set the class
+    /*  .filter(function(d){ console.log(d.years >= 1950); return d.years >= 1970})
+      .attr("visibility", "hidden");*/
 
-  console.log(d.name);
-  console.log(node);
-  filterYears(node);
-
-  
+ // console.log(d.name);
+  //console.log(node);
+  //filterYears(node);
 }
 
 function mouseouted(d) {
@@ -110,6 +112,7 @@ function packageHierarchy(classes) {
   return map[""];
 }
 
+
 // Return a list of imports for the given array of nodes.
 function packageImports(nodes) {
   var map = {},
@@ -130,12 +133,14 @@ function packageImports(nodes) {
   return imports;
 }
 
-function filterYears(nodes){
-  var tempNodes = nodes.filter(function(d) {
-    return !('years' in d || d.years >= 1602  )
+function filterYears(nodes, selectedYear){
+  nodes.filter(function(d){
+    console.log(d);
+    console.log(d.years >= 1942);
+    
+    return d.years >= selectedYear;
   });
-  update(tempNodes)
-}
 
+}
 
 }
