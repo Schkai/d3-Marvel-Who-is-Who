@@ -77,27 +77,32 @@ function mouseclick(d) {
     .style({position : "absolute", left : (radius-200) +'px', top : (radius-200) +'px'})
     .attr("class","card");
 
+  if(d.details == '') {
+    d.details = 'Keine Beschreibung verfügbar';
+  }
 
-  group.append("img")
-    .attr("class", "card-img-top")
-    .attr("width", 400)
-    .attr("height", 400)
-    .attr("src", d.thumbnail);
 
-  console.log(d.thumbnail);
-  
+    group.append("img")
+      .attr("class", "card-img-top")
+      .attr("width", 400)
+      .attr("height", 400)
+      .attr("src", d.thumbnail);
 
-  group.append("h3")
-    .text(d.name)
-    .attr("class", "card-header");
+    var card_block = group.append("div")
+      .attr("class","card-block")
 
-  group.append("p")
-    .text(d.years)
-    .attr("class", "card-subtitle");
+    card_block.append("h4")
+      .text(d.name)
+      .attr("class", "card-title")
 
-  group.append("p")
-    .text(d.details)
-    .attr("class", "card-text");
+    card_block.append("h6")
+      .text(d.years)
+      .attr("class", "card-subtitle mb-2 text-muted");
+
+    card_block.append("p")
+      .text(d.details)
+      .attr("class", "card-text")
+      .attr("style", "max-width: 360px");
 
 }
 
