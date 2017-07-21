@@ -158,12 +158,8 @@
 .link--target {
   stroke: #3498db; }
 
-.footer {
-  margin-top: 100px;
-}
-
 * {
-  font-family: 'Marvel', sans-serif; }
+  font-family: helvetica, arial; }
 
 circle {
   fill: #bbb; }

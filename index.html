@@ -9,26 +9,26 @@
   <link rel="stylesheet" type="text/css" href="dist/css/main.css">
   <link rel="stylesheet" type="text/css" href="/dist/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/dist/bootstrap/dist/css/bootstrap-grid.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Marvel:400,700" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: black">
 
   <div id="container">
-    <div id="main">
+    <div id="marvel" style="font-family: 'Marvel'; font-weight: 700; color: #F7F7F7; position: relative; top: 10px; width: 100%; text-align: center;">
+      <h1>Marvel API</h1>
+    <div id="results">
+      <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
+    </div>
+    </div>
+
+    <div id="main" style="position: relative; margin-top: 40px;">
     </div>
   </div>
 
-<div id="marvel" class="container">
-  <div class="row">
-    <h1>Marvel API</h1>
-  </div>
-<div id="results" class="row">
-  <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
-</div>
-</div>
-
-<footer class="modal-footer footer">
-  <p>Data provided by Marvel. © 2017 MARVEL</p>
-</footer>
+  <footer style="font-family: 'Marvel'; font-size: 0.8em; color: #F7F7F7; position: relative; bottom: 10px; width: 100%; text-align: right">
+    <p>Data provided by Marvel. © 2017 MARVEL</p>
+  </footer>
 
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
