@@ -1,5 +1,6 @@
 var yearOutput = d3.selectAll("div").filter("#marvel").append('div')
   .attr('class','row')
+  .attr('style','margin-left: 20px')
   .append('h2');
 
 var heroesData = [];

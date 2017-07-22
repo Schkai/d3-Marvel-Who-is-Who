@@ -2992,7 +2992,7 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
 function draw(data) {
-  d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').classed('slider', true).call(TimeSlider);
+  d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').attr('style', 'margin-right: 10px').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
 drawVisuals();
@@ -3043,7 +3043,7 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').append('h2');
+var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').attr('style', 'margin-left: 20px').append('h2');
 var heroesData = [];
 var canvas;
 var currentYear;
@@ -3127,11 +3127,14 @@ function drawVisuals() {
       left: (radius - 200) + 'px',
       top: (radius - 200) + 'px'
     }).attr("class", "card");
+    if (d.details == '') {
+      d.details = 'Keine Beschreibung verfügbar';
+    }
     group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
-    console.log(d.thumbnail);
-    group.append("h3").text(d.name).attr("class", "card-header");
-    group.append("p").text(d.years).attr("class", "card-subtitle");
-    group.append("p").text(d.details).attr("class", "card-text");
+    var card_block = group.append("div").attr("class", "card-block");
+    card_block.append("h4").text(d.name).attr("class", "card-title");
+    card_block.append("h6").text(d.years).attr("class", "card-subtitle mb-2 text-muted");
+    card_block.append("p").text(d.details).attr("class", "card-text").attr("style", "max-width: 360px");
   }
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);

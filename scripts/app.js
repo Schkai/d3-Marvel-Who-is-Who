@@ -15,6 +15,7 @@ function draw(data) {
 d3.selectAll("div").filter("#marvel")
   .append('div')
   .attr('class', 'row')
+  .attr('style', 'margin-right: 10px')
   .classed('slider', true)
   .call(TimeSlider);
 
