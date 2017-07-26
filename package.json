@@ -16,8 +16,7 @@
         "gulp-ruby-sass": "^2.1.1",
         "gulp-traceur": "^0.17.2",
         "jquery": "latest",
-        "devbridge-autocomplete": "^1.4.1",
-        "awesomplete": "^1.1.1"
+        "devbridge-autocomplete": "^1.4.1"
     },
     "devDependencies": {
         "gulp-sass": "^3.1.0",

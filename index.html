@@ -8,7 +8,15 @@
     <title>Marvels Who is Who</title>
     <link rel="stylesheet" type="text/css" href="dist/css/main.css">
     <link rel="stylesheet" type="text/css" href="/dist/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="\vendors\awesompleteawesomplete.css" />
+
+    <!--    added-->
+    <!--<link rel="stylesheet" href="\vendors\awesompleteawesomplete.css" />-->
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+
 </head>
 
 <body>
@@ -16,9 +24,10 @@
     <div id="container">
         <div id="main">
         </div>
-        <input id="inputSearch" class="awesomplete" list="list" data-minchars='2' />
-        <datalist id="list">
-        </datalist>
+        <div class="ui-widget">
+            <label for="tags">Search for a Hero: </label>
+            <input id="tags">
+        </div>
     </div>
 
     <div id="marvel">
@@ -32,6 +41,9 @@
         <p>Data provided by Marvel. © 2017 MARVEL</p>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
     <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
@@ -39,13 +51,8 @@
     <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
     <script type="text/javascript" src="vendors/d3-slider/d3-slider.js"></script>
     <script type="text/javascript" src="dist/scripts/app.js"></script>
-    <script src="\vendors\awesomplete\awesomplete.js" async></script>
 
-    <!--    arrg-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 </body>
 

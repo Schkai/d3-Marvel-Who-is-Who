@@ -20,19 +20,22 @@ var heroesData = [];
 function init() {
     var dataList = document.getElementById("list");
 
-
-
     loadJSON('/data/heroes_by_python.json',
         function (data) {
 
+            var availableHeroes = [];
+
             for (var i = 0; i < data.length; i++) {
-                var optionName = data[i];
-
-                var option = document.createElement("option");
-                option.text = data[i].name;
-
-                dataList.appendChild(option);
+                availableHeroes.push(data[i].name);
             }
+
+            $("#tags").autocomplete({
+                source: availableHeroes,
+                select: function (event, ui) {
+                    console.log(event);
+                }
+            });
+
         },
         function (xhr) {
             console.error(xhr);
