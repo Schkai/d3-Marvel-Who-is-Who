@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Marvels Who is Who</title>
-  <link rel="stylesheet" type="text/css" href="dist/css/main.css">
-  <link rel="stylesheet" type="text/css" href="/dist/bootstrap/dist/css/bootstrap.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marvels Who is Who</title>
+    <link rel="stylesheet" type="text/css" href="dist/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/dist/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="\vendors\awesompleteawesomplete.css" />
 </head>
+
 <body>
 
-  <div id="container">
-    <div id="main">
+    <div id="container">
+        <div id="main">
+        </div>
+        <input id="inputSearch" class="awesomplete" list="list" data-minchars='2' />
+        <datalist id="list">
+        </datalist>
     </div>
-  </div>
 
-<div id="marvel">
-  <h1>Marvel API</h1>
-<div id="results">
-  <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
-</div>
-</div>
+    <div id="marvel">
+        <h1>Marvel API</h1>
+        <div id="results">
+            <p>Just testing out the Marvel API pulling some comics. For more information on the API go to <a href="https://developer.marvel.com">developer.marvel.com</a></p>
+        </div>
+    </div>
 
-<footer>
-  <p>Data provided by Marvel. © 2017 MARVEL</p>
-</footer>
+    <footer>
+        <p>Data provided by Marvel. © 2017 MARVEL</p>
+    </footer>
 
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
-  <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
-  <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
-  <script type="text/javascript" src="vendors/d3-slider/d3-slider.js"></script>
- <script type="text/javascript" src="dist/scripts/app.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
+    <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+    <script type="text/javascript" src="vendors/chroniton/chroniton.js"></script>
+    <script type="text/javascript" src="vendors/d3-slider/d3-slider.js"></script>
+    <script type="text/javascript" src="dist/scripts/app.js"></script>
+    <script src="\vendors\awesomplete\awesomplete.js" async></script>
+
+    <!--    arrg-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </body>
+
 </html>

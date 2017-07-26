@@ -2991,10 +2991,40 @@ var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
+function init() {
+  var dataList = document.getElementById("list");
+  loadJSON('/data/heroes_by_python.json', function(data) {
+    for (var i = 0; i < data.length; i++) {
+      var optionName = data[i];
+      var option = document.createElement("option");
+      option.text = data[i].name;
+      dataList.appendChild(option);
+    }
+  }, function(xhr) {
+    console.error(xhr);
+  });
+}
+function loadJSON(path, success, error) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        if (success)
+          success(JSON.parse(xhr.responseText));
+      } else {
+        if (error)
+          error(xhr);
+      }
+    }
+  };
+  xhr.open("GET", path, true);
+  xhr.send();
+}
 function draw(data) {
   d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
+init();
 drawVisuals();
 draw();
 function getMarvelResponse() {
@@ -3034,7 +3064,7 @@ function testImages(data) {
 }
 getMarvelResponse();
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
+//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
 },{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3056,7 +3086,7 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
 });
 ;
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/timeSlider.js
+//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/timeSlider.js
 },{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3179,5 +3209,5 @@ function drawVisuals() {
   }
 }
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
+//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/visual.js
 },{}]},{},[4,1]);
