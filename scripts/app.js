@@ -15,7 +15,7 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 
 var heroesData = [];
-
+var that = new EventPublisher();
 
 function init() {
     var dataList = document.getElementById("list");
@@ -32,7 +32,7 @@ function init() {
             $("#tags").autocomplete({
                 source: availableHeroes,
                 select: function (event, ui) {
-                    console.log(event);
+                    selectNodeByName(this.value);
                 }
             });
 
@@ -41,6 +41,27 @@ function init() {
             console.error(xhr);
         }
     );
+}
+
+function selectNodeByName(name) {
+    var nodes = d3.selectAll(".node");
+
+    var node = null;
+
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[0][i].innerHTML.toLowerCase == name.toLowerCase) {
+            node = nodes[0][i];
+        }
+    }
+
+    drawVisuals().mouseclicked(node);
+    //    console.log(node);
+    //
+    //    var nodeBySearch = {
+    //        node: node
+    //    };
+    //
+    //    that.notifyAll("node found", nodeBySearch);
 }
 
 function loadJSON(path, success, error) {
