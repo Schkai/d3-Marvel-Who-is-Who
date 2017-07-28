@@ -2983,18 +2983,22 @@ process.umask = function() { return 0; };
 
 },{}],4:[function(require,module,exports){
 "use strict";
-var $__timeSlider__,
-    $__visual__;
-var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
+var $__visual__;
 var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
+<<<<<<< Updated upstream
 function draw(data) {
   d3.select(document.body).append('div').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
+=======
+var yearOutput,
+    currentYear;
+function draw(data) {}
+>>>>>>> Stashed changes
 drawVisuals();
 draw();
 function getMarvelResponse() {
@@ -3035,6 +3039,7 @@ function testImages(data) {
 getMarvelResponse();
 
 //# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
+<<<<<<< Updated upstream
 },{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3060,6 +3065,9 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
 
 //# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/timeSlider.js
 },{}],6:[function(require,module,exports){
+=======
+},{"./visual":5}],5:[function(require,module,exports){
+>>>>>>> Stashed changes
 "use strict";
 Object.defineProperties(exports, {
   drawVisuals: {get: function() {
@@ -3068,6 +3076,17 @@ Object.defineProperties(exports, {
   __esModule: {value: true}
 });
 function drawVisuals() {
+  var yearOutput,
+      currentYear;
+  var TimeSlider = chroniton().domain([new Date('1/1/1950'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
+    var yearNameFormat = d3.time.format("%Y");
+    console.log(yearNameFormat(d));
+    currentYear = yearNameFormat(d);
+    changeData(yearNameFormat(d));
+    return yearNameFormat(d);
+  });
+  d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').attr('style', 'margin-right: 10px').classed('slider', true).call(TimeSlider);
+  d3.select('slider').append('h3xs').text('You selected data for:');
   var diameter = 2160,
       radius = diameter / 2,
       innerRadius = radius - 120;
@@ -3084,8 +3103,9 @@ function drawVisuals() {
   var link = svg.append("g").selectAll(".link"),
       node = svg.append("g").selectAll(".node");
   d3.json("../data/heroes_by_python.json", function(error, classes) {
-    if (error)
+    if (error) {
       throw error;
+    }
     var nodes = cluster.nodes(packageHierarchy(classes)),
         links = packageImports(nodes);
     link = link.data(bundle(links)).enter().append("path").each(function(d) {
@@ -3107,11 +3127,13 @@ function drawVisuals() {
       n.target = n.source = false;
     });
     link.classed("link--target", function(l) {
-      if (l.target === d)
+      if (l.target === d) {
         return l.source.source = true;
+      }
     }).classed("link--source", function(l) {
-      if (l.source === d)
+      if (l.source === d) {
         return l.target.target = true;
+      }
     }).filter(function(l) {
       return l.target === d || l.source === d;
     }).each(function() {
@@ -3168,11 +3190,21 @@ function drawVisuals() {
     });
     return imports;
   }
+<<<<<<< Updated upstream
   function filterYears(nodes, selectedYear) {
     nodes.filter(function(d) {
       console.log(d);
       console.log(d.years >= 1942);
       return d.years >= selectedYear;
+=======
+  function changeData(year) {
+    console.log(year);
+    var link = d3.selectAll(".link"),
+        node = d3.selectAll(".node");
+    console.log(node);
+    node.filter(function(d) {
+      console.log(d.years);
+>>>>>>> Stashed changes
     });
   }
 }

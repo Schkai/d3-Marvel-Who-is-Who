@@ -1,5 +1,6 @@
-import { TimeSlider } from './timeSlider';
-import { drawVisuals } from './visual';
+//import { TimeSlider } from './timeSlider';
+
+import { drawVisuals } from './visual'
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
@@ -7,16 +8,32 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 
 var heroesData = [];
+var yearOutput, currentYear;
 
+/*var TimeSlider =  chroniton()
+        .domain([new Date('1/1/1975'), new Date('1/1/2015')])
+        .width(500)
+        .labelFormat(d3.time.format('%Y'))
+        .on('change', function(d) {
+          var yearNameFormat = d3.time.format("%Y"); 
+          console.log(yearNameFormat(d));
+          yearOutput.text(yearNameFormat(d));
+          currentYear = yearNameFormat(d);
+          changeData(yearNameFormat(d));
+          return yearNameFormat(d);
+        });
 
+*/
 function draw(data) {
 
-d3.select(document.body)
+/*d3.selectAll("div").filter("#marvel")
   .append('div')
-  .classed('slider', true)
-  .call(TimeSlider);
-
-d3.select('slider').append('h3').text('You selected data for:');
+  .attr('class', 'row')
+  .attr('style', 'margin-right: 10px')
+  .classed('slider', true);
+  //.call(TimeSlider);
+*/
+//d3.select('slider').append('h3').text('You selected data for:');
 
 }
 
@@ -58,7 +75,7 @@ function getMarvelResponse() {
       // the error codes are listed on the dev site
       console.log(err);
     });
-};
+}
 
 function testImages(data) {
   var results = data.data.results;

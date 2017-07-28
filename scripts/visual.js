@@ -1,4 +1,31 @@
+
+/* global d3*/
 export function drawVisuals()  {
+
+  var yearOutput, currentYear;
+
+var TimeSlider =  chroniton()
+        .domain([new Date('1/1/1950'), new Date('1/1/2015')])
+        .width(500)
+        .labelFormat(d3.time.format('%Y'))
+        .on('change', function(d) {
+          var yearNameFormat = d3.time.format("%Y"); 
+          console.log(yearNameFormat(d));
+          currentYear = yearNameFormat(d);
+          changeData(yearNameFormat(d));
+          return yearNameFormat(d);
+        });
+
+  d3.selectAll("div").filter("#marvel")
+  .append('div')
+  .attr('class', 'row')
+  .attr('style', 'margin-right: 10px')
+  .classed('slider', true)
+  .call(TimeSlider);
+
+  d3.select('slider').append('h3xs').text('You selected data for:');
+
+
 var diameter = 2160,
     radius = diameter / 2,
     innerRadius = radius - 120;
@@ -26,7 +53,9 @@ var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
 d3.json("../data/heroes_by_python.json", function(error, classes) {
-  if (error) throw error;
+  if (error){
+    throw error;
+  } 
 
   var nodes = cluster.nodes(packageHierarchy(classes)),
       links = packageImports(nodes);
@@ -61,8 +90,8 @@ function mouseclick(d) {
       .each(function(n) { n.target = n.source = false; });
 
   link
-      .classed("link--target", function(l) { if (l.target === d) return l.source.source = true; })
-      .classed("link--source", function(l) { if (l.source === d) return l.target.target = true; })
+      .classed("link--target", function(l) { if (l.target === d){ return l.source.source = true; }})
+      .classed("link--source", function(l) { if (l.source === d){ return l.target.target = true; }})
     .filter(function(l) { return l.target === d || l.source === d; })
       .each(function() { this.parentNode.appendChild(this); });
 
@@ -77,15 +106,6 @@ function mouseclick(d) {
   //filterYears(node);
 }
 
-function mouseouted(d) {
-  link
-      .classed("link--target", false) //removes the class of previously clicked nodes
-      .classed("link--source", false); //removes the class of previously clicked nodes
-
-  node
-      .classed("node--target", false)
-      .classed("node--source", false);
-}
 
 d3.select(self.frameElement).style("height", diameter + "px");
 
@@ -133,14 +153,25 @@ function packageImports(nodes) {
   return imports;
 }
 
-function filterYears(nodes, selectedYear){
-  nodes.filter(function(d){
-    console.log(d);
-    console.log(d.years >= 1942);
-    
-    return d.years >= selectedYear;
-  });
+function changeData(year){
+  console.log(year);
+
+var link = d3.selectAll(".link"),
+    node = d3.selectAll(".node");
+
+    console.log(node)
+
+node.filter(function(d){ 
+  console.log(d.years);
+  //console.log(d.years >= d);
+});
+  //console.log(d);});
+
+   // console.log(link, node);
+
+   // link.remove();
+   // node.exit().remove();
 
 }
-
 }
+
