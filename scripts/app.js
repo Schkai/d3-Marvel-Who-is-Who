@@ -12,11 +12,11 @@ var heroesData = [];
 
 function draw(data) {
 
-d3.selectAll("div").filter("#marvel")
+var sliderdiv = d3.selectAll("div").filter("#marvel")
   .append('div')
-  .attr('class', 'row')
-  .attr('style', 'margin-right: 10px')
-  .classed('slider', true)
+  .attr('class', 'row');
+  //.attr('style', 'margin-right: 10px')
+  sliderdiv.append("div").attr('class', 'col-sm-12').classed('slider', true)
   .call(TimeSlider);
 
 d3.select('slider').append('h3').text('You selected data for:');

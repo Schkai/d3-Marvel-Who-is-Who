@@ -2992,7 +2992,8 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
 var heroesData = [];
 function draw(data) {
-  d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').attr('style', 'margin-right: 10px').classed('slider', true).call(TimeSlider);
+  var sliderdiv = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row');
+  sliderdiv.append("div").attr('class', 'col-sm-12').classed('slider', true).call(TimeSlider);
   d3.select('slider').append('h3').text('You selected data for:');
 }
 drawVisuals();
@@ -3043,14 +3044,14 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').attr('style', 'margin-left: 20px').append('h2');
+var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').append('h2');
 var heroesData = [];
 var canvas;
 var currentYear;
 var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
   var yearNameFormat = d3.time.format("%Y");
   console.log(yearNameFormat(d));
-  yearOutput.text(yearNameFormat(d));
+  yearOutput.text(yearNameFormat(d)).attr('class', 'col-sm-12');
   currentYear = yearNameFormat(d);
   return yearNameFormat(d);
 });

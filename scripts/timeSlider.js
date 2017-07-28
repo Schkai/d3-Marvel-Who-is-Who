@@ -1,6 +1,5 @@
 var yearOutput = d3.selectAll("div").filter("#marvel").append('div')
   .attr('class','row')
-  .attr('style','margin-left: 20px')
   .append('h2');
 
 var heroesData = [];
@@ -14,7 +13,7 @@ var TimeSlider =  chroniton()
         .on('change', function(d) {
           var yearNameFormat = d3.time.format("%Y"); 
           console.log(yearNameFormat(d));
-          yearOutput.text(yearNameFormat(d));
+          yearOutput.text(yearNameFormat(d)).attr('class','col-sm-12');
           currentYear = yearNameFormat(d);
           return yearNameFormat(d);
         });
