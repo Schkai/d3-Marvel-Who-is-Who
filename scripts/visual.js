@@ -1,7 +1,7 @@
 var node, link, nodes, links, herocoordinates,
-diameter = 2160,
-radius = diameter / 2,
-innerRadius = radius - 120;
+    diameter = 2160,
+    radius = diameter / 2,
+    innerRadius = radius - 120;
 
 export function drawVisuals() {
 
@@ -66,19 +66,10 @@ export function drawVisuals() {
             .text(function (d) {
                 return d.key;
             })
-            .on("click", mouseclick)
-            //.on("mouseout", mouseouted);
-
-        // node.addEventListener("node found", onNodeSearched);
+            .on("click", mouseclick);
 
     });
 
-    function onNodeSearched(data) {
-        //console.log("onNodeSearched");
-        //console.log(data.node);
-    }
-
-    
 
     function mouseouted(d) {
         link
@@ -146,93 +137,86 @@ export function drawVisuals() {
 }
 
 export function mouseclick(d) {
-        console.log(d);
-        var background = d3.select("#main"); //.selectAll("svg");
+    console.log(d);
+    var background = d3.select("#main"); //.selectAll("svg");
 
-        var card = background.selectAll((".card")).remove();
+    var card = background.selectAll((".card")).remove();
 
-        node
-            .each(function (n) {
-                n.target = n.source = false;
-            });
+    node
+        .each(function (n) {
+            n.target = n.source = false;
+        });
 
-        link
-            .classed("link--target", function (l) {
-                if (l.target === d) return l.source.source = true;
-            })
-            .classed("link--source", function (l) {
-                if (l.source === d) return l.target.target = true;
-            })
-            .filter(function (l) {
-                return l.target === d || l.source === d;
-            })
-            .each(function () {
-                this.parentNode.appendChild(this);
-            });
+    link
+        .classed("link--target", function (l) {
+            if (l.target === d) return l.source.source = true;
+        })
+        .classed("link--source", function (l) {
+            if (l.source === d) return l.target.target = true;
+        })
+        .filter(function (l) {
+            return l.target === d || l.source === d;
+        })
+        .each(function () {
+            this.parentNode.appendChild(this);
+        });
 
-        node
-            .classed("node--target", function (n) {
-                return n.target;
-            }) //set the class
-            .classed("node--source", function (n) {
-                return n.source;
-            }); //set the class
+    node
+        .classed("node--target", function (n) {
+            return n.target;
+        }) //set the class
+        .classed("node--source", function (n) {
+            return n.source;
+        }); //set the class
 
-        //console.log(d.name);
+    //console.log(d.name);
 
-        var group = background.append("div")
-            .style({
-                position: "absolute",
-                left: (radius - 200) + 'px',
-                top: (radius - 200) + 'px'
-            })
-            .attr("class", "card");
-
-
-        group.append("img")
-            .attr("class", "card-img-top")
-            .attr("width", 400)
-            .attr("height", 400)
-            .attr("src", d.thumbnail);
+    var group = background.append("div")
+        .style({
+            position: "absolute",
+            left: (radius - 200) + 'px',
+            top: (radius - 200) + 'px'
+        })
+        .attr("class", "card");
 
 
+    group.append("img")
+        .attr("class", "card-img-top")
+        .attr("width", 400)
+        .attr("height", 400)
+        .attr("src", d.thumbnail);
 
-        group.append("h3")
-            .text(d.name)
-            .attr("class", "card-header");
 
-        group.append("p")
-            .text(d.years)
-            .attr("class", "card-subtitle");
 
-        group.append("p")
-            .text(d.details)
-            .attr("class", "card-text");
+    group.append("h3")
+        .text(d.name)
+        .attr("class", "card-header");
+
+    group.append("p")
+        .text(d.years)
+        .attr("class", "card-subtitle");
+
+    group.append("p")
+        .text(d.details)
+        .attr("class", "card-text");
 
 }
 
-export function mousesearch(name) {
-  console.log(nodes);
-  var nd;
-  for(var i = 0; i < nodes.length; i++){
-    if (nodes[i].name == name){
-      nd = nodes[i];
+export function selectNodeByName(name) {
+
+    var nd;
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].name === name) {
+            nd = nodes[i];
+        }
     }
-  }
-  console.log(nd);
-  mouseclick(nd);
-  /*for (var i = 0; i < herocoordinates.length; i++) {
-    if (herocoordinates[i].name == nd.innerHTML) {
-        mouseclick(herocoordinates[i]);
-        console.log(herocoordinates[i]);
-    }
-  }*/
+
+    mouseclick(nd);
+
+    /*for (var i = 0; i < herocoordinates.length; i++) {
+      if (herocoordinates[i].name == nd.innerHTML) {
+          mouseclick(herocoordinates[i]);
+          console.log(herocoordinates[i]);
+      }
+    }*/
 }
-
-
-
-
-
-
-
-

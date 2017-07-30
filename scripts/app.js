@@ -9,7 +9,7 @@ import {
 from './visual'
 
 import {
-    mousesearch
+    selectNodeByName
 }
 from './visual'
 
@@ -36,8 +36,9 @@ function init() {
 
             $("#tags").autocomplete({
                 source: availableHeroes,
+                max: 10,
                 select: function (event, ui) {
-                    mousesearch(ui.item.value);
+                    selectNodeByName(ui.item.value);
                 }
             });
 
@@ -48,31 +49,6 @@ function init() {
     );
 }
 
-function selectNodeByName(name) {
-    //console.log(name);
-    var nodes = d3.selectAll(".node");
-    console.log(nodes);
-    var node = null;
-
-    for (var i = 0; i < nodes.length; i++) {
-        if (nodes[0][i].innerHTML.toLowerCase == name.toLowerCase) {
-            console.log(nodes[0][i].innerHTML.toLowerCase());
-            console.log(name.toLowerCase())
-            node = nodes[0][i];
-        }
-    }
-
-    console.log(node);
-
-    //console.log(node);
-    mousesearch(node);
-    
-    //    var nodeBySearch = {
-    //        node: node
-    //    };
-    //
-    //    that.notifyAll("node found", nodeBySearch);
-}
 
 function loadJSON(path, success, error) {
     var xhr = new XMLHttpRequest();
@@ -123,20 +99,16 @@ function getMarvelResponse() {
     var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
     const LIMIT = 100;
 
-    //console.log(url);
     $.getJSON(url, {
             limit: LIMIT,
             offset: 0,
             ts: ts,
             apikey: PUBLIC_KEY,
             hash: hash,
-            //characters: characterId
         })
         .done(function (data) {
             // sort of a long dump you will need to sort through
-            //console.log(data);
             marvelData = data;
-            //testImages(data);
         })
         .fail(function (err) {
             // the error codes are listed on the dev site
@@ -161,5 +133,3 @@ function testImages(data) {
 }
 
 getMarvelResponse();
-
-
