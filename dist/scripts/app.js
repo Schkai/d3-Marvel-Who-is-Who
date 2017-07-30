@@ -2984,9 +2984,11 @@ process.umask = function() { return 0; };
 },{}],4:[function(require,module,exports){
 "use strict";
 var $__timeSlider__,
+    $__visual__,
     $__visual__;
 var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
 var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
+var mousesearch = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).mousesearch;
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
@@ -3002,7 +3004,7 @@ function init() {
     $("#tags").autocomplete({
       source: availableHeroes,
       select: function(event, ui) {
-        selectNodeByName(this.value);
+        mousesearch(ui.item.value);
       }
     });
   }, function(xhr) {
@@ -3011,13 +3013,17 @@ function init() {
 }
 function selectNodeByName(name) {
   var nodes = d3.selectAll(".node");
+  console.log(nodes);
   var node = null;
   for (var i = 0; i < nodes.length; i++) {
     if (nodes[0][i].innerHTML.toLowerCase == name.toLowerCase) {
+      console.log(nodes[0][i].innerHTML.toLowerCase());
+      console.log(name.toLowerCase());
       node = nodes[0][i];
     }
   }
-  drawVisuals().mouseclicked(node);
+  console.log(node);
+  mousesearch(node);
 }
 function loadJSON(path, success, error) {
   var xhr = new XMLHttpRequest();
@@ -3049,7 +3055,6 @@ function getMarvelResponse() {
   var url = 'http://gateway.marvel.com:80/v1/public/events';
   var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
   var LIMIT = 100;
-  console.log(url);
   $.getJSON(url, {
     limit: LIMIT,
     offset: 0,
@@ -3057,7 +3062,6 @@ function getMarvelResponse() {
     apikey: PUBLIC_KEY,
     hash: hash
   }).done(function(data) {
-    console.log(data);
     marvelData = data;
   }).fail(function(err) {
     console.log(err);
@@ -3079,7 +3083,7 @@ function testImages(data) {
 }
 getMarvelResponse();
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
 },{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3101,19 +3105,30 @@ var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]
 });
 ;
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/timeSlider.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/timeSlider.js
 },{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
   drawVisuals: {get: function() {
       return drawVisuals;
     }},
+  mouseclick: {get: function() {
+      return mouseclick;
+    }},
+  mousesearch: {get: function() {
+      return mousesearch;
+    }},
   __esModule: {value: true}
 });
+var node,
+    link,
+    nodes,
+    links,
+    herocoordinates,
+    diameter = 2160,
+    radius = diameter / 2,
+    innerRadius = radius - 120;
 function drawVisuals() {
-  var diameter = 2160,
-      radius = diameter / 2,
-      innerRadius = radius - 120;
   var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
     return d.size;
   });
@@ -3124,13 +3139,14 @@ function drawVisuals() {
     return d.x / 180 * Math.PI;
   });
   var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
-  var link = svg.append("g").selectAll(".link"),
-      node = svg.append("g").selectAll(".node");
+  link = svg.append("g").selectAll(".link");
+  node = svg.append("g").selectAll(".node");
   d3.json("../data/heroes_by_python.json", function(error, classes) {
     if (error)
       throw error;
-    var nodes = cluster.nodes(packageHierarchy(classes)),
-        links = packageImports(nodes);
+    herocoordinates = classes;
+    nodes = cluster.nodes(packageHierarchy(classes));
+    links = packageImports(nodes);
     link = link.data(bundle(links)).enter().append("path").each(function(d) {
       d.source = d[0], d.target = d[d.length - 1];
     }).attr("class", "link").attr("d", line);
@@ -3144,44 +3160,7 @@ function drawVisuals() {
       return d.key;
     }).on("click", mouseclick);
   });
-  function onNodeSearched(data) {
-    console.log("onNodeSearched");
-    console.log(data.node);
-  }
-  function mouseclick(d) {
-    console.log(d);
-    var background = d3.select("#main");
-    var card = background.selectAll((".card")).remove();
-    node.each(function(n) {
-      n.target = n.source = false;
-    });
-    link.classed("link--target", function(l) {
-      if (l.target === d)
-        return l.source.source = true;
-    }).classed("link--source", function(l) {
-      if (l.source === d)
-        return l.target.target = true;
-    }).filter(function(l) {
-      return l.target === d || l.source === d;
-    }).each(function() {
-      this.parentNode.appendChild(this);
-    });
-    node.classed("node--target", function(n) {
-      return n.target;
-    }).classed("node--source", function(n) {
-      return n.source;
-    });
-    console.log(d.name);
-    var group = background.append("div").style({
-      position: "absolute",
-      left: (radius - 200) + 'px',
-      top: (radius - 200) + 'px'
-    }).attr("class", "card");
-    group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
-    group.append("h3").text(d.name).attr("class", "card-header");
-    group.append("p").text(d.years).attr("class", "card-subtitle");
-    group.append("p").text(d.details).attr("class", "card-text");
-  }
+  function onNodeSearched(data) {}
   function mouseouted(d) {
     link.classed("link--target", false).classed("link--source", false);
     node.classed("node--target", false).classed("node--source", false);
@@ -3228,6 +3207,50 @@ function drawVisuals() {
     return imports;
   }
 }
+function mouseclick(d) {
+  console.log(d);
+  var background = d3.select("#main");
+  var card = background.selectAll((".card")).remove();
+  node.each(function(n) {
+    n.target = n.source = false;
+  });
+  link.classed("link--target", function(l) {
+    if (l.target === d)
+      return l.source.source = true;
+  }).classed("link--source", function(l) {
+    if (l.source === d)
+      return l.target.target = true;
+  }).filter(function(l) {
+    return l.target === d || l.source === d;
+  }).each(function() {
+    this.parentNode.appendChild(this);
+  });
+  node.classed("node--target", function(n) {
+    return n.target;
+  }).classed("node--source", function(n) {
+    return n.source;
+  });
+  var group = background.append("div").style({
+    position: "absolute",
+    left: (radius - 200) + 'px',
+    top: (radius - 200) + 'px'
+  }).attr("class", "card");
+  group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
+  group.append("h3").text(d.name).attr("class", "card-header");
+  group.append("p").text(d.years).attr("class", "card-subtitle");
+  group.append("p").text(d.details).attr("class", "card-text");
+}
+function mousesearch(name) {
+  console.log(nodes);
+  var nd;
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i].name == name) {
+      nd = nodes[i];
+    }
+  }
+  console.log(nd);
+  mouseclick(nd);
+}
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/visual.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
 },{}]},{},[4,1]);

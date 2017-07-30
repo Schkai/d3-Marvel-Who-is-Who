@@ -8,6 +8,11 @@ import {
 }
 from './visual'
 
+import {
+    mousesearch
+}
+from './visual'
+
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
@@ -32,7 +37,7 @@ function init() {
             $("#tags").autocomplete({
                 source: availableHeroes,
                 select: function (event, ui) {
-                    selectNodeByName(this.value);
+                    mousesearch(ui.item.value);
                 }
             });
 
@@ -44,19 +49,24 @@ function init() {
 }
 
 function selectNodeByName(name) {
+    //console.log(name);
     var nodes = d3.selectAll(".node");
-
+    console.log(nodes);
     var node = null;
 
     for (var i = 0; i < nodes.length; i++) {
         if (nodes[0][i].innerHTML.toLowerCase == name.toLowerCase) {
+            console.log(nodes[0][i].innerHTML.toLowerCase());
+            console.log(name.toLowerCase())
             node = nodes[0][i];
         }
     }
 
-    drawVisuals().mouseclicked(node);
-    //    console.log(node);
-    //
+    console.log(node);
+
+    //console.log(node);
+    mousesearch(node);
+    
     //    var nodeBySearch = {
     //        node: node
     //    };
@@ -113,7 +123,7 @@ function getMarvelResponse() {
     var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
     const LIMIT = 100;
 
-    console.log(url);
+    //console.log(url);
     $.getJSON(url, {
             limit: LIMIT,
             offset: 0,
@@ -124,7 +134,7 @@ function getMarvelResponse() {
         })
         .done(function (data) {
             // sort of a long dump you will need to sort through
-            console.log(data);
+            //console.log(data);
             marvelData = data;
             //testImages(data);
         })
@@ -151,3 +161,5 @@ function testImages(data) {
 }
 
 getMarvelResponse();
+
+
