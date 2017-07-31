@@ -1,8 +1,8 @@
 /*import {
     TimeSlider
-}*/
+}
 from './timeSlider';
-
+*/
 import {
     drawVisuals
 }
@@ -15,33 +15,40 @@ from './visual'
 
 
 /*var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
-var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";*/
-
+var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
+*/
+const INPUT_SEARCH_LIMIT = 10;
+const XMLHTTP_REQUEST_OK_CODE = 200;
+
 
 function init() {
-    var dataList = document.getElementById("list");
+    drawVisuals();
 
     loadJSON('/data/heroes_by_python.json',
         function (data) {
-
             var availableHeroes = [];
 
+            // saves names in array
             for (var i = 0; i < data.length; i++) {
                 availableHeroes.push(data[i].name);
             }
 
             $("#tags").autocomplete({
+                // sets the source to the array and sets the number of max displayed listitems to INPUT_SEARCH_LIMIT
                 source: function (request, response) {
                     var results = $.ui.autocomplete.filter(availableHeroes, request.term);
 
-                    response(results.slice(0, 10));
+                    response(results.slice(0, INPUT_SEARCH_LIMIT));
                 },
+                // delay only useful for http-calls
                 delay: 0,
                 autoFocus: true,
+                // calling selectNodeByName(name) when selected
                 select: function (event, ui) {
                     selectNodeByName(ui.item.value);
                 },
+                // enhancing usability by giving feedback if no hero found
                 response: function (event, ui) {
                     if (ui.content.length === 0) {
                         $("#input_feedback").text("This Marvel-Hero does not exist!");
@@ -50,8 +57,6 @@ function init() {
                     }
                 }
             });
-
-
         },
         function (xhr) {
             console.error(xhr);
@@ -61,10 +66,11 @@ function init() {
 
 
 function loadJSON(path, success, error) {
+    // standard json-loading-script aus MME
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
+            if (xhr.status === XMLHTTP_REQUEST_OK_CODE) {
                 if (success)
                     success(JSON.parse(xhr.responseText));
             } else {
@@ -76,6 +82,8 @@ function loadJSON(path, success, error) {
     xhr.open("GET", path, true);
     xhr.send();
 }
+
+init();
 
 /*function draw(data) {
 
@@ -90,10 +98,6 @@ function loadJSON(path, success, error) {
     d3.select('slider').append('h3').text('You selected data for:');
 
 }*/
-
-init()
-
-drawVisuals();
 
 /*draw();
 

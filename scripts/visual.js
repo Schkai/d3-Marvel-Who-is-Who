@@ -193,20 +193,12 @@ export function mouseclick(d) {
 }
 
 export function selectNodeByName(name) {
-
-    var nd;
+    // calling mouseclick when node found
+    var node;
     for (var i = 0; i < nodes.length; i++) {
         if (nodes[i].name === name) {
-            nd = nodes[i];
+            node = nodes[i];
         }
     }
-
-    mouseclick(nd);
-
-    /*for (var i = 0; i < herocoordinates.length; i++) {
-      if (herocoordinates[i].name == nd.innerHTML) {
-          mouseclick(herocoordinates[i]);
-          console.log(herocoordinates[i]);
-      }
-    }*/
+    mouseclick(node);
 }
