@@ -43,7 +43,7 @@ function initSearch() {
                 availableHeroes.push(data[i].name);
             }
 
-            $("#tags").autocomplete({
+            $("#search_input").autocomplete({
                 // sets the source to the array and sets the number of max displayed listitems to INPUT_SEARCH_LIMIT
                 source: function (request, response) {
                     var results = $.ui.autocomplete.filter(availableHeroes, request.term);

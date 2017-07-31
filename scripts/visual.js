@@ -62,7 +62,7 @@ export function drawVisuals() {
             .attr("class", "node")
             .attr("dy", ".31em")
             .attr("transform", function (d) {
-                return "rotate(" + (d.x - (HALF_CIRC_RAD_DEGREES / 2)) + ")translate(" + (d.y + DIST_PADDING_BONUS) + ",0)" + (d.x < HALF_CIRC_RAD_DEGREES ? "" : "rotate(" + HALF_CIRC_RAD_DEGREES + ")");
+                return "rotate(" + (d.x - (HALF_CIRC_RAD_DEGREES / 2)) + ")translate(" + (d.y + 8) + ",0)" + (d.x < HALF_CIRC_RAD_DEGREES ? "" : "rotate(" + HALF_CIRC_RAD_DEGREES + ")");
             })
             .style("text-anchor", function (d) {
                 return d.x < HALF_CIRC_RAD_DEGREES ? "start" : "end";
@@ -125,8 +125,6 @@ export function drawVisuals() {
 
         return imports;
     }
-
-
 }
 
 export function nodeSelect(d) {
@@ -166,7 +164,7 @@ export function nodeSelect(d) {
 
 function drawInfobox(background, d) {
 
-    const PADDING_MID_CIRC_INFOBOX
+    var PADDING_MID_CIRC_INFOBOX = 200;
 
     //infobox
     var group = background.append("div")
