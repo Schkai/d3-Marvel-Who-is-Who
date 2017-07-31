@@ -1,6 +1,6 @@
-import {
+/*import {
     TimeSlider
-}
+}*/
 from './timeSlider';
 
 import {
@@ -14,8 +14,8 @@ import {
 from './visual'
 
 
-var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
-var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
+/*var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
+var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";*/
 
 var marvelData = [];
 
@@ -77,7 +77,7 @@ function loadJSON(path, success, error) {
     xhr.send();
 }
 
-function draw(data) {
+/*function draw(data) {
 
     var sliderdiv = d3.selectAll("div").filter("#marvel")
         .append('div')
@@ -89,25 +89,25 @@ function draw(data) {
 
     d3.select('slider').append('h3').text('You selected data for:');
 
-}
+}*/
 
 init()
 
 drawVisuals();
 
-draw();
+/*draw();
 
 getMarvelResponse();
 
 
 function getMarvelResponse() {
 
-    // you need a new ts every request                                                                                    
+    // you need a new ts every request
     var ts = new Date().getTime();
     var hash = CryptoJS.MD5(ts + PRIV_KEY + PUBLIC_KEY).toString();
 
     // the api deals a lot in ids rather than just the strings you want to use
-    var characterId = '1009718'; // wolverine                                                                             
+    var characterId = '1009718'; // wolverine
 
 
     var url = 'http://gateway.marvel.com:80/v1/public/events';
@@ -145,4 +145,4 @@ function testImages(data) {
     }
     output += '</ul>'
     $('#results').append(output);
-}
+}*/
