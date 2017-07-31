@@ -66,7 +66,7 @@ export function drawVisuals() {
             .text(function (d) {
                 return d.key;
             })
-            .on("click", mouseclick);
+            .on("click", nodeSelect);
 
     });
 
@@ -125,7 +125,7 @@ export function drawVisuals() {
 
 }
 
-export function mouseclick(d) {
+export function nodeSelect(d) {
     var background = d3.select("#main"); //.selectAll("svg");
 
     var card = background.selectAll((".card")).remove();
@@ -160,7 +160,7 @@ export function mouseclick(d) {
     drawInfobox(background, d);
 }
 
-function drawInfobox(background, d){
+function drawInfobox(background, d) {
 
     //infobox
     var group = background.append("div")
@@ -171,7 +171,7 @@ function drawInfobox(background, d){
         })
         .attr("class", "card");
 
-    if (d.details == ""){
+    if (d.details == "") {
         d.details = "Keine Beschreibung verfügbar"
     }
     //characterimage
@@ -203,13 +203,13 @@ function drawInfobox(background, d){
 }
 
 export function selectNodeByName(name) {
-
-    var nd;
+    // finding node by heroe's name from search-input
+    var node;
     for (var i = 0; i < nodes.length; i++) {
         if (nodes[i].name === name) {
-            nd = nodes[i];
+            node = nodes[i];
         }
     }
 
-    mouseclick(nd);
+    nodeSelect(node);
 }

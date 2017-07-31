@@ -25,7 +25,15 @@ const XMLHTTP_REQUEST_OK_CODE = 200;
 
 function init() {
     drawVisuals();
+    initSearch();
 
+    /*
+    draw();
+    getMarvelResponse();
+      */
+}
+
+function initSearch() {
     loadJSON('/data/heroes_by_python.json',
         function (data) {
             var availableHeroes = [];
@@ -65,9 +73,8 @@ function init() {
     );
 }
 
-
 function loadJSON(path, success, error) {
-    // standard json-loading-script aus MME
+    // standard json-loading-script from MME-course
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -98,12 +105,7 @@ init();
 
     d3.select('slider').append('h3').text('You selected data for:');
 
-}*/
-
-/*draw();
-
-getMarvelResponse();
-
+}
 
 function getMarvelResponse() {
 
