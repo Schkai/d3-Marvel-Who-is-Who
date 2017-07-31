@@ -42,7 +42,7 @@ Leitung: Florin Schwappach
 
 
 
-*Abgegeben am 31.07.2017
+*Abgegeben* *am* *31.07.2017*
 
 
 ## 1. Motivation
