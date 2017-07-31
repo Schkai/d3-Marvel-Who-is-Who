@@ -19,24 +19,24 @@ Based on: https://bl.ocks.org/mbostock/7607999
 
 # Dokumentation
 
-**Universität** **Regensburg**
+## Universität Regensburg
 
 **Philosophische**  **Fakultät III**
 
-**Sprach- , Literatur- und Kulturwissenschaften**
+**Sprach-** , **Literatur-** **und** **Kulturwissenschaften**
 
-**Institut für Information und**  **Medien**** , Sprache und Kultur (I:IMSK)
-Lehrstuhl für Medieninformatik**
+**Institut für Information und**  **Medien** **,** **Sprache und Kultur (I:IMSK)**
+**Lehrstuhl für Medieninformatik**
 
 
 
-Projektseminar Mediengestaltung 1: Informationsvisualisierung
+### Projektseminar Mediengestaltung 1: Informationsvisualisierung
 
-Modul: MEI-M05.3
+### Modul: MEI-M05.3
 
-SS17
+#### SS17
 
-Leitung: Florin Schwappach
+***Leitung: Florin Schwappach***
 
 **Marvel's Who is Who**
 
@@ -51,19 +51,8 @@ Es gibt nur wenige fiktive Universen, die sich so erfolgreich und langfristig in
 
 ## 2. Überlegungen zur Visualisierung
 
-Zu Beginn des Projekts stellte sich die Frage, welche Form von Visualisierung sinnvoll erscheint, um einen nominalen Datensatz schlüssig visuell darzustellen. Die Wahl fiel auf eine Hierarchische Baumstruktur, da diese laut Definition geordnete Sets darstellen, in welchen Subsets anhand deren Beziehungen geordnet sind. Zudem können Daten in hierarchischer Struktur meist anhand deren Eigenschaften (Properties) und deren Elemente im Bezug auf Verwandschaftsbeziehung/Gleichheitsgrad  beschrieben und verglichen werden. Eine kreisrunde Darstellung der Daten sollte dafür sorgen, den Fokus auf die zahlreichen Verbindungen innerhalb der Mitte des Kreises an Charakteren zu legen. Eine alphabetische Sortierung des Datensatzes anhand der kreisrunden Achse mit gleichem Abstand gewährleistet eine Übersichtliche Darstellung der Namen. Sieht der Benutzer nicht sofort seinen gewünschten Charakter, kann er diesen über eine Suchleiste suchen und wird interaktiv darüber informiert, ob dieser im Datensatz enthalten ist. Ist der gewünschte Charakter gefunden, öffnet sich eine kleine Informationskarte, die das offizielle Avatar-Bild der Marvel-API beinhaltet und in Wiki-Kurzform weitere Informationen liefert, um dem User zusätzliches Wissen zu vermitteln. U
-
-Karten angelehnt an Comic-Erklärung und Wiki-Einträge
-
-Farbgebung analog gefasst zur Marvel Website
-
-Schrift ist ähnlich zu CI
-
-Wollen zeigen, wie verwoben einzelne Marvel-Charaktere miteinander sind
-
-visueller Reminder, wie groß und vielfältig das Marvel Universum ist
-
-Zusätzliche Marvel Trivia
+Zu Beginn des Projekts stellte sich die Frage, welche Form von Visualisierung sinnvoll erscheint, um einen nominalen Datensatz schlüssig visuell darzustellen. Die Wahl fiel auf eine Hierarchische Baumstruktur, da diese laut Definition geordnete Sets darstellen, in welchen Subsets anhand deren Beziehungen geordnet sind. Zudem können Daten in hierarchischer Struktur meist anhand deren Eigenschaften (Properties) und deren Elemente im Bezug auf Verwandschaftsbeziehung/Gleichheitsgrad  beschrieben und verglichen werden. Die wichtigste Funktion der Visualisierung ist es, dem User als visuellen Reminder ins Gedächtnis zu rufen, wie groß und verwoben die Charaktere im Marvel-Universum sind, sowie grundlegene Informationen zu den Helden und Bösewichten zu zeigen.  
+Eine kreisrunde Darstellung der Daten sollte dafür sorgen, den Fokus auf die zahlreichen Verbindungen innerhalb der Mitte des Kreises an Charakteren zu legen. Eine alphabetische Sortierung des Datensatzes anhand der kreisrunden Achse mit gleichem Abstand gewährleistet eine Übersichtliche Darstellung der Namen. Sieht der Benutzer nicht sofort seinen gewünschten Charakter, kann er diesen über eine Suchleiste suchen und wird interaktiv darüber informiert, ob dieser im Datensatz enthalten ist. Ist der gewünschte Charakter gefunden, öffnet sich eine kleine Informationskarte, die das offizielle Avatar-Bild der Marvel-API beinhaltet und in Wiki-Kurzform weitere Informationen liefert, um dem User zusätzliches Wissen zu vermitteln. Weiterhin ist es für das  “Marvel-Feeling” wichtig, die Schrift- und Farbgebung analog zur Website und den Comics zu gestalten. Angeplant war zudem auch ein Timeslider, mit dessen Hilfe die Visualisierung nach Jahreszahlen durchsucht werden sollte. Da in den früheren Jahren der ersten Comic-Erscheinungen noch nicht das Ausmaß der heutigen Verbindungen erreicht war, hätte sich der Datensatz im Verlauf der Zeit eindrucksvoll vergrößert. Diese Umsetzung war in der gegebenen Zeit leider nicht lösbar. 
 
 ## 3.Technische Implementierung
 
@@ -258,7 +247,7 @@ group.append("h3")
 
 ### 3.4 Zeitstrahl
 
-Über dem großen Kreis soll sich eigentlich die Anzeige der Jahreszahl und der TimeSlider befinden.  Dessen Zeitstrahl würde am 1.1.1975 beginnen und am 1.1.2015 enden. Das Default-Jahr wäre 1975. Auf dem Reiter des Zeitstrahls würde ein Event-Listener liegen. Sobald sich die Position des Reiters also verändern würde, würde sich auch die darüber angezeigte Jahreszahl ändern.
+Über dem großen Kreis sollte sich ursprünglich lich die Anzeige der Jahreszahl und der TimeSlider befinden.  Dessen Zeitstrahl würde am ersten Erscheinungsjahr der Comics beginnen und im Jahr 2017 enden. Auf dem Reiter des Zeitstrahls würde ein Event-Listener liegen, der den Datensatz korrespondierend zur ausgewählten Jahreszahl dynamisch vergrößert oder verkleinert und dementsprechende Nodes und Links entfernt oder hinzufügt.
 
 ```js
 var TimeSlider =  chroniton()
@@ -275,9 +264,8 @@ var TimeSlider =  chroniton()
 
 ```
 
-Außerdem war unser Ziel über eine Funktion alle Charaktere und deren Verbindungen auf „hidden&quot; zu setzen. Dadurch würden nur die Charaktere ausgewählt werden, deren Ersterscheinungsjahr nach dem Jahr liegt, das über den Zeitstrahl ausgewählt wurde. Dabei sollten die einzelnen Nodes mit dem selektierten Jahr abgeglichen werden.
+Das Filtern der Nodes stellte sich hier als das zentrale Problem heraus. Mit Hilfe der d3.filter() Funktion lässt sich zwar filtern, ob Jahreszahlen im Datensatz enthalten sind, aber diese nicht zur Laufzeit löschen. Um dies zu bewerkstelligen, hätte die Visualisierung komplett aus dem DOM gelöscht, die Seite neu geladen und die Visualisierung sich neu bauen müssen. Eine alternative Idee hierzu war, die Verbindungen und Nodes mit dem “visibility: hidden”-Attribut zu versehen, wenn diese nicht im passenden Scope des Sliders liegen. Hierbei stellte sich heraus, dass die von d3 erstellten Links und deren Pfade nur teilweise, wenn überhaupt, auf das Attribut reagierte. Es scheint, als würde hier die interne Logik der d3-Library zu Komplikationen führen. Auch umfangreiche Nachforschungen auf StackOverflow, Reddit und Google führten zu keinen Ergebnissen, weshalb der Slider in der Endvisualisierung nicht zu sehen ist.
 
-Leider sind bei dem Versuch den Zeitstrahl zu implementieren folgende Schwierigkeiten aufgetreten:
 
 ### 3.5 Suchfunktion
 
