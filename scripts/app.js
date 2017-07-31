@@ -44,11 +44,13 @@ function init() {
                 },
                 response: function (event, ui) {
                     if (ui.content.length === 0) {
-                        console.log("noone found");
-                        alert("This Marvel-Hero does not exist!");
+                        $("#input_feedback").text("This Marvel-Hero does not exist!");
+                    } else {
+                        $("#input_feedback").empty();
                     }
                 }
             });
+
 
         },
         function (xhr) {
