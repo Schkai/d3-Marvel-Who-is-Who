@@ -162,11 +162,15 @@ Das Frontend basiert auf Node.Js und wird durch den Taskrunner Gulp gestartet. L
 
 Für die Visualisierung mit d3.JS wird im Code zunächst der JSON-Datensatz eingelesen. In diesem Fall liegt der erstellte Datensatz in der Datei heroes\_by\_python.json. Dieses JSON-File enthält alle wichtigen Informationen, wie beispielsweise Name, Ersterscheinungsjahr und mit welchen anderen Charakteren die einzelnen Helden bzw. Schurken jemals aufgetreten sind. Über zwei Funktionen werden aus den Daten zwei Arrays erzeugt. Diese enthalten dann die einzelnen Knotenpunkte (Nodes) und Verbindungen (Links) der Marvel-Charakter.
 
+```js 
 nodes = cluster.nodes(packageHierarchy(classes));
+```
 
 Die Funktion packageHierarchy erzeugt eine neue Map als Javascript Objekt und sucht sich anhand des übergebenen &quot;classes&quot;-Atrribut die korrespondierenden Datensätze heraus, um daraus einen Datenpunkt (Node) zu erstellen.
 
+```js 
 links = packageImports(nodes);
+```
 
 packageImports hingegen gibt eine Liste für das gegebene Array an Nodes zurück, erstellt ein Map-Array vom Namen zur korrespondierenden Node und erzeugt für jeden Link eine Verbindung von Quelle zu Ziel.
 
@@ -174,54 +178,32 @@ Aus den beiden Arrays werden dann die Nodes als text-Element und Links als path-
 
 ```js 
 link = link
+           .data(bundle(links))
+           .enter().append("path")
+           .each(function (d) {
+               d.source = d[0], d.target = d[d.length - 1];
+           })
+           .attr("class", "link")
+           .attr("d", line);
 
-           .data(bundle(links))
+       node = node
+           .data(nodes.filter(function (n) {
+               return !n.children;
+           }))
+           .enter().append("text")
+           .attr("class", "node")
+           .attr("dy", ".31em")
+           .attr("transform", function (d) {
+               return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
+           })
+           .style("text-anchor", function (d) {
+               return d.x < 180 ? "start" : "end";
+           })
+           .text(function (d) {
+               return d.key;
+           })
+           .on("click", mouseclick)
 
-           .enter().append(&quot;path&quot;)
-
-           .each(function (d) {
-
-               d.source = d[0], d.target = d[d.length - 1];
-
-           })
-
-           .attr(&quot;class&quot;, &quot;link&quot;)
-
-           .attr(&quot;d&quot;, line);
-
-       node = node
-
-           .data(nodes.filter(function (n) {
-
-               return !n.children;
-
-           }))
-
-           .enter().append(&quot;text&quot;)
-
-           .attr(&quot;class&quot;, &quot;node&quot;)
-
-           .attr(&quot;dy&quot;, &quot;.31em&quot;)
-
-           .attr(&quot;transform&quot;, function (d) {
-
-               return &quot;rotate(&quot; + (d.x - 90) + &quot;)translate(&quot; + (d.y + 8) + &quot;,0)&quot; + (d.x &lt; 180 ? &quot;&quot; : &quot;rotate(180)&quot;);
-
-           })
-
-           .style(&quot;text-anchor&quot;, function (d) {
-
-               return d.x &lt; 180 ? &quot;start&quot; : &quot;end&quot;;
-
-           })
-
-           .text(function (d) {
-
-               return d.key;
-
-           })
-
-           .on(&quot;click&quot;, mouseclick)
 ```
 
 3.3 Charakterselektion
@@ -230,114 +212,75 @@ Beim Klick auf einen Namen wird die Funktion mouseclick ausgelöst. Durch die Fu
 
 ```js
 export function mouseclick(d) {
+       console.log(d);
+       var background = d3.select("#main"); //.selectAll("svg");
 
-       console.log(d);
+       var card = background.selectAll((".card")).remove();
 
-       var background = d3.select(&quot;#main&quot;); //.selectAll(&quot;svg&quot;);
+       node
+           .each(function (n) {
+               n.target = n.source = false;
+           });
 
-       var card = background.selectAll((&quot;.card&quot;)).remove();
+       link
+           .classed("link--target", function (l) {
+               if (l.target === d) return l.source.source = true;
+           })
+           .classed("link--source", function (l) {
+               if (l.source === d) return l.target.target = true;
+           })
+           .filter(function (l) {
+               return l.target === d || l.source === d;
+           })
+           .each(function () {
+               this.parentNode.appendChild(this);
+           });
 
-       node
-
-           .each(function (n) {
-
-               n.target = n.source = false;
-
-           });
-
-       link
-
-           .classed(&quot;link--target&quot;, function (l) {
-
-               if (l.target === d) return l.source.source = true;
-
-           })
-
-           .classed(&quot;link--source&quot;, function (l) {
-
-               if (l.source === d) return l.target.target = true;
-
-           })
-
-           .filter(function (l) {
-
-               return l.target === d || l.source === d;
-
-           })
-
-           .each(function () {
-
-               this.parentNode.appendChild(this);
-
-           });
-
-       node
-
-           .classed(&quot;node--target&quot;, function (n) {
-
-               return n.target;
-
-           }) //set the class
-
-           .classed(&quot;node--source&quot;, function (n) {
-
-               return n.source;
-
-           }); //set the class
+       node
+           .classed("node--target", function (n) {
+               return n.target;
+           }) //set the class
+           .classed("node--source", function (n) {
+               return n.source;
+           }); //set the class
 ```
 
 Außerdem erzeugt diese die Infobox. Diese dient zur Darstellung näherer Details des jeweils ausgewählten Charakters. In der Mitte des Kreises der alle Verbindungen der Superhelden darstellt, wird zuerst ein div-Container erzeugt. Als X- bzw. Y-Position wird der Radius übergeben, damit die Infobox auch wirklich in der Mitte des Kreises abgebildet wird.
 
 ```js
-var group = background.append(&quot;div&quot;)
-
-           .style({
-
-               position: &quot;absolute&quot;,
-
-               left: (radius - 200) + &#39;px&#39;,
-
-               top: (radius - 200) + &#39;px&#39;
-
-           })
-
-           .attr(&quot;class&quot;, &quot;card&quot;);
+var group = background.append("div")
+           .style({
+               position: "absolute",
+               left: (radius - 200) + 'px',
+               top: (radius - 200) + 'px'
+           })
+           .attr("class", "card");
 ```
 
 Über ein im Node hinterlegtes Thumbnail wird innerhalb des Containers ein Bild zu dem Charakter angezeigt.
 
 ```js
-group.append(&quot;img&quot;)
-
-           .attr(&quot;class&quot;, &quot;card-img-top&quot;)
-
-           .attr(&quot;width&quot;, 400)
-
-           .attr(&quot;height&quot;, 400)
-
-           .attr(&quot;src&quot;, d.thumbnail);
+group.append("img")
+           .attr("class", "card-img-top")
+           .attr("width", 400)
+           .attr("height", 400)
+           .attr("src", d.thumbnail);
 ```
 
 Darunter wird der Name und das Ersterscheinungsjahr angezeigt.  Außerdem kann der User eine nähere Beschreibung lesen, falls eine hinterlegt ist. Für den Fall, dass keine Beschreibung vorhanden ist, erscheint nur ein kurzer Text: „Keine Beschreibung verfügbar&quot;.  Sobald der User auf einen anderen Helden klickt, wird die vorherige Infobox gelöscht und eine neue erzeugt.
 
 ```js
-group.append(&quot;h3&quot;)
+group.append("h3")
+           .text(d.name)
+           .attr("class", "card-header");
 
-           .text(d.name)
+       group.append("p")
+           .text(d.years)
+           .attr("class", "card-subtitle");
 
-           .attr(&quot;class&quot;, &quot;card-header&quot;);
-
-       group.append(&quot;p&quot;)
-
-           .text(d.years)
-
-           .attr(&quot;class&quot;, &quot;card-subtitle&quot;);
-
-       group.append(&quot;p&quot;)
-
-           .text(d.details)
-
-           .attr(&quot;class&quot;, &quot;card-text&quot;);
+       group.append("p")
+           .text(d.details)
+           .attr("class", "card-text");
 ```
 
 3.4 Zeitstrahl
@@ -345,27 +288,18 @@ group.append(&quot;h3&quot;)
 Über dem großen Kreis soll sich eigentlich die Anzeige der Jahreszahl und der TimeSlider befinden.  Dessen Zeitstrahl würde am 1.1.1975 beginnen und am 1.1.2015 enden. Das Default-Jahr wäre 1975. Auf dem Reiter des Zeitstrahls würde ein Event-Listener liegen. Sobald sich die Position des Reiters also verändern würde, würde sich auch die darüber angezeigte Jahreszahl ändern.
 
 ```js
-var TimeSlider =  chroniton()
+var TimeSlider =  chroniton()
+       .domain([new Date('1/1/1975'), new Date('1/1/2015')])
+       .width(500)
+       .labelFormat(d3.time.format('%Y'))
+       .on('change', function(d) {
+         var yearNameFormat = d3.time.format("%Y"); 
+         console.log(yearNameFormat(d));
+         yearOutput.text(yearNameFormat(d));
+         currentYear = yearNameFormat(d);
+         return yearNameFormat(d);
+       });
 
-       .domain([new Date(&#39;1/1/1975&#39;), new Date(&#39;1/1/2015&#39;)])
-
-       .width(500)
-
-       .labelFormat(d3.time.format(&#39;%Y&#39;))
-
-       .on(&#39;change&#39;, function(d) {
-
-         var yearNameFormat = d3.time.format(&quot;%Y&quot;);
-
-         console.log(yearNameFormat(d));
-
-         yearOutput.text(yearNameFormat(d));
-
-         currentYear = yearNameFormat(d);
-
-         return yearNameFormat(d);
-
-       });
 ```
 
 Außerdem war unser Ziel über eine Funktion alle Charaktere und deren Verbindungen auf „hidden&quot; zu setzen. Dadurch würden nur die Charaktere ausgewählt werden, deren Ersterscheinungsjahr nach dem Jahr liegt, das über den Zeitstrahl ausgewählt wurde. Dabei sollten die einzelnen Nodes mit dem selektierten Jahr abgeglichen werden.
