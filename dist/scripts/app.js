@@ -2987,9 +2987,10 @@ var $__visual__,
     $__visual__;
 var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
 var selectNodeByName = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).selectNodeByName;
-var marvelData = [];
+var INPUT_SEARCH_LIMIT = 10;
+var XMLHTTP_REQUEST_OK_CODE = 200;
 function init() {
-  var dataList = document.getElementById("list");
+  drawVisuals();
   loadJSON('/data/heroes_by_python.json', function(data) {
     var availableHeroes = [];
     for (var i = 0; i < data.length; i++) {
@@ -2998,7 +2999,7 @@ function init() {
     $("#tags").autocomplete({
       source: function(request, response) {
         var results = $.ui.autocomplete.filter(availableHeroes, request.term);
-        response(results.slice(0, 10));
+        response(results.slice(0, INPUT_SEARCH_LIMIT));
       },
       delay: 0,
       autoFocus: true,
@@ -3021,7 +3022,7 @@ function loadJSON(path, success, error) {
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
+      if (xhr.status === XMLHTTP_REQUEST_OK_CODE) {
         if (success)
           success(JSON.parse(xhr.responseText));
       } else {
@@ -3034,9 +3035,8 @@ function loadJSON(path, success, error) {
   xhr.send();
 }
 init();
-drawVisuals();
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
+//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
 },{"./visual":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3170,14 +3170,14 @@ function drawInfobox(background, d) {
   card_block.append("p").text(d.details).attr("class", "card-text").attr("style", "max-width: 360px");
 }
 function selectNodeByName(name) {
-  var nd;
+  var node;
   for (var i = 0; i < nodes.length; i++) {
     if (nodes[i].name === name) {
-      nd = nodes[i];
+      node = nodes[i];
     }
   }
-  mouseclick(nd);
+  mouseclick(node);
 }
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
+//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/visual.js
 },{}]},{},[4,1]);
