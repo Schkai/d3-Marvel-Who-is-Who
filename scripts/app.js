@@ -16,7 +16,8 @@ from './visual'
 
 var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
 var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
-
+const INPUT_LIST_MAX_LIMIT = 10;
+const XMLHTTPREQUEST_CODE_STATUS = 200;
 var marvelData = [];
 
 function init() {
@@ -35,7 +36,7 @@ function init() {
                 source: function (request, response) {
                     var results = $.ui.autocomplete.filter(availableHeroes, request.term);
 
-                    response(results.slice(0, 10));
+                    response(results.slice(0, INPUT_LIST_MAX_LIMIT));
                 },
                 delay: 0,
                 autoFocus: true,
@@ -50,8 +51,6 @@ function init() {
                     }
                 }
             });
-
-
         },
         function (xhr) {
             console.error(xhr);
@@ -64,7 +63,7 @@ function loadJSON(path, success, error) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
+            if (xhr.status === XMLHTTPREQUEST_CODE_STATUS) {
                 if (success)
                     success(JSON.parse(xhr.responseText));
             } else {
