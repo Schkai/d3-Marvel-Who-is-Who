@@ -1,7 +1,7 @@
 /*import {
     TimeSlider
-}*/
-from './timeSlider';
+}
+from './timeSlider';*/
 
 import {
     drawVisuals
