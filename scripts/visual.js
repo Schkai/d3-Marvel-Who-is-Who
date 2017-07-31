@@ -161,6 +161,8 @@ export function mouseclick(d) {
 }
 
 function drawInfobox(background, d){
+
+    //infobox
     var group = background.append("div")
         .style({
             position: "absolute",
@@ -169,24 +171,28 @@ function drawInfobox(background, d){
         })
         .attr("class", "card");
 
-
+    //characterimage
     group.append("img")
         .attr("class", "card-img-top")
         .attr("width", 400)
         .attr("height", 400)
         .attr("src", d.thumbnail);
 
+    //container for character information    
     var card_block = group.append("div")
         .attr("class", "card-block")
 
+    //charactername
     card_block.append("h4")
         .text(d.name)
         .attr("class", "card-title")
 
+    //release year
     card_block.append("h6")
         .text(d.years)
         .attr("class", "card-subtitle mb-2 text-muted");
 
+    //characterdetails
     card_block.append("p")
         .text(d.details)
         .attr("class", "card-text")

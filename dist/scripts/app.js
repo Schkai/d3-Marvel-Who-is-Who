@@ -3036,7 +3036,7 @@ function loadJSON(path, success, error) {
 }
 init();
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
 },{"./visual":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
@@ -3170,14 +3170,14 @@ function drawInfobox(background, d) {
   card_block.append("p").text(d.details).attr("class", "card-text").attr("style", "max-width: 360px");
 }
 function selectNodeByName(name) {
-  var node;
+  var nd;
   for (var i = 0; i < nodes.length; i++) {
     if (nodes[i].name === name) {
-      node = nodes[i];
+      nd = nodes[i];
     }
   }
-  mouseclick(node);
+  mouseclick(nd);
 }
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/visual.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
 },{}]},{},[4,1]);
