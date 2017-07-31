@@ -1,13 +1,9 @@
 /*import {
     TimeSlider
 }
-<<<<<<< HEAD
 from './timeSlider';
 */
-=======
-from './timeSlider';*/
 
->>>>>>> origin/master
 import {
     drawVisuals
 }
