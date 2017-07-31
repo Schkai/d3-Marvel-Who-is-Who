@@ -2983,16 +2983,11 @@ process.umask = function() { return 0; };
 
 },{}],4:[function(require,module,exports){
 "use strict";
-var $__timeSlider__,
-    $__visual__,
+var $__visual__,
     $__visual__;
-var TimeSlider = ($__timeSlider__ = require("./timeSlider"), $__timeSlider__ && $__timeSlider__.__esModule && $__timeSlider__ || {default: $__timeSlider__}).TimeSlider;
 var drawVisuals = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).drawVisuals;
 var selectNodeByName = ($__visual__ = require("./visual"), $__visual__ && $__visual__.__esModule && $__visual__ || {default: $__visual__}).selectNodeByName;
-var PRIV_KEY = "2bc84665e9b2df0787d56fb4cf274d9c4645bd1f";
-var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 var marvelData = [];
-var heroesData = [];
 function init() {
   var dataList = document.getElementById("list");
   loadJSON('/data/heroes_by_python.json', function(data) {
@@ -3001,10 +2996,21 @@ function init() {
       availableHeroes.push(data[i].name);
     }
     $("#tags").autocomplete({
-      source: availableHeroes,
-      max: 10,
+      source: function(request, response) {
+        var results = $.ui.autocomplete.filter(availableHeroes, request.term);
+        response(results.slice(0, 10));
+      },
+      delay: 0,
+      autoFocus: true,
       select: function(event, ui) {
         selectNodeByName(ui.item.value);
+      },
+      response: function(event, ui) {
+        if (ui.content.length === 0) {
+          $("#input_feedback").text("This Marvel-Hero does not exist!");
+        } else {
+          $("#input_feedback").empty();
+        }
       }
     });
   }, function(xhr) {
@@ -3027,73 +3033,11 @@ function loadJSON(path, success, error) {
   xhr.open("GET", path, true);
   xhr.send();
 }
-function draw(data) {
-  var sliderdiv = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row');
-  sliderdiv.append("div").attr('class', 'col-sm-12').classed('slider', true).call(TimeSlider);
-  d3.select('slider').append('h3').text('You selected data for:');
-}
 init();
 drawVisuals();
-draw();
-function getMarvelResponse() {
-  var ts = new Date().getTime();
-  var hash = CryptoJS.MD5(ts + PRIV_KEY + PUBLIC_KEY).toString();
-  var characterId = '1009718';
-  var url = 'http://gateway.marvel.com:80/v1/public/events';
-  var url2 = "http://gateway.marvel.com/v1/public/events/329/characters";
-  var LIMIT = 100;
-  $.getJSON(url, {
-    limit: LIMIT,
-    offset: 0,
-    ts: ts,
-    apikey: PUBLIC_KEY,
-    hash: hash
-  }).done(function(data) {
-    marvelData = data;
-  }).fail(function(err) {
-    console.log(err);
-  });
-}
-;
-function testImages(data) {
-  var results = data.data.results;
-  var resultsLen = results.length;
-  var output = '<ul>';
-  for (var i = 0; i < resultsLen; i++) {
-    if (results[i].images.length > 0) {
-      var imgPath = results[i].images[0].path + '/standard_xlarge.' + results[i].images[0].extension;
-      output += '<li><img src="' + imgPath + '"><br>' + results[i].title + '</li>';
-    }
-  }
-  output += '</ul>';
-  $('#results').append(output);
-}
-getMarvelResponse();
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/app.js
-},{"./timeSlider":5,"./visual":6}],5:[function(require,module,exports){
-"use strict";
-Object.defineProperties(exports, {
-  TimeSlider: {get: function() {
-      return TimeSlider;
-    }},
-  __esModule: {value: true}
-});
-var yearOutput = d3.selectAll("div").filter("#marvel").append('div').attr('class', 'row').append('h2');
-var heroesData = [];
-var canvas;
-var currentYear;
-var TimeSlider = chroniton().domain([new Date('1/1/1975'), new Date('1/1/2015')]).width(500).labelFormat(d3.time.format('%Y')).on('change', function(d) {
-  var yearNameFormat = d3.time.format("%Y");
-  console.log(yearNameFormat(d));
-  yearOutput.text(yearNameFormat(d)).attr('class', 'col-sm-12');
-  currentYear = yearNameFormat(d);
-  return yearNameFormat(d);
-});
-;
-
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/timeSlider.js
-},{}],6:[function(require,module,exports){
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
+},{"./visual":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
   drawVisuals: {get: function() {
@@ -3233,5 +3177,5 @@ function selectNodeByName(name) {
   mouseclick(nd);
 }
 
-//# sourceURL=C:/Users/Elias/documents/github/d3-marvel-who-is-who/scripts/visual.js
+//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
 },{}]},{},[4,1]);
