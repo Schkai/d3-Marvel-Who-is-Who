@@ -19,8 +19,6 @@ var PUBLIC_KEY = "979b099b043e4964b948d981ac2264b0";
 
 var marvelData = [];
 
-var heroesData = [];
-
 function init() {
     var dataList = document.getElementById("list");
 
@@ -34,8 +32,12 @@ function init() {
             }
 
             $("#tags").autocomplete({
-                source: availableHeroes,
-                max: 10,
+                source: function (request, response) {
+                    var results = $.ui.autocomplete.filter(availableHeroes, request.term);
+
+                    response(results.slice(0, 10));
+                },
+                delay: 500,
                 select: function (event, ui) {
                     selectNodeByName(ui.item.value);
                 }
