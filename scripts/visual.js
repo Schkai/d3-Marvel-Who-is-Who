@@ -4,9 +4,13 @@ var node, link, nodes, links, herocoordinates,
     innerRadius = radius - 120;
 
 export function drawVisuals() {
+    const FULL_CIRC_RAD_DEGREES = 360;
+    const HALF_CIRC_RAD_DEGREES = 180;
+    const TENSION_D3 = .45;
+    const DIST_PADDING_BONUS = 8;
 
     var cluster = d3.layout.cluster()
-        .size([360, innerRadius])
+        .size([FULL_CIRC_RAD_DEGREES, innerRadius])
         .sort(null)
         .value(function (d) {
             return d.size;
@@ -16,12 +20,12 @@ export function drawVisuals() {
 
     var line = d3.svg.line.radial()
         .interpolate("bundle")
-        .tension(.45)
+        .tension(TENSION_D3)
         .radius(function (d) {
             return d.y;
         })
         .angle(function (d) {
-            return d.x / 180 * Math.PI;
+            return d.x / HALF_CIRC_RAD_DEGREES * Math.PI;
         });
 
     var svg = d3.selectAll("div").filter("#main").append("svg")
@@ -58,10 +62,10 @@ export function drawVisuals() {
             .attr("class", "node")
             .attr("dy", ".31em")
             .attr("transform", function (d) {
-                return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
+                return "rotate(" + (d.x - (HALF_CIRC_RAD_DEGREES / 2)) + ")translate(" + (d.y + DIST_PADDING_BONUS) + ",0)" + (d.x < HALF_CIRC_RAD_DEGREES ? "" : "rotate(" + HALF_CIRC_RAD_DEGREES + ")");
             })
             .style("text-anchor", function (d) {
-                return d.x < 180 ? "start" : "end";
+                return d.x < HALF_CIRC_RAD_DEGREES ? "start" : "end";
             })
             .text(function (d) {
                 return d.key;
@@ -162,12 +166,14 @@ export function nodeSelect(d) {
 
 function drawInfobox(background, d) {
 
+    const PADDING_MID_CIRC_INFOBOX
+
     //infobox
     var group = background.append("div")
         .style({
             position: "absolute",
-            left: (radius - 200) + 'px',
-            top: (radius - 200) + 'px'
+            left: (radius - PADDING_MID_CIRC_INFOBOX) + 'px',
+            top: (radius - PADDING_MID_CIRC_INFOBOX) + 'px'
         })
         .attr("class", "card");
 
@@ -177,8 +183,8 @@ function drawInfobox(background, d) {
     //characterimage
     group.append("img")
         .attr("class", "card-img-top")
-        .attr("width", 400)
-        .attr("height", 400)
+        .attr("width", PADDING_MID_CIRC_INFOBOX * 2)
+        .attr("height", PADDING_MID_CIRC_INFOBOX * 2)
         .attr("src", d.thumbnail);
 
     //container for character information    
