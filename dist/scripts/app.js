@@ -3163,6 +3163,9 @@ function drawInfobox(background, d) {
     left: (radius - 200) + 'px',
     top: (radius - 200) + 'px'
   }).attr("class", "card");
+  if (d.details == "") {
+    d.details = "Keine Beschreibung verfügbar";
+  }
   group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
   var card_block = group.append("div").attr("class", "card-block");
   card_block.append("h4").text(d.name).attr("class", "card-title");

@@ -171,6 +171,9 @@ function drawInfobox(background, d){
         })
         .attr("class", "card");
 
+    if (d.details == ""){
+        d.details = "Keine Beschreibung verfügbar"
+    }
     //characterimage
     group.append("img")
         .attr("class", "card-img-top")
