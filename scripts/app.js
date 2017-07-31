@@ -37,9 +37,16 @@ function init() {
 
                     response(results.slice(0, 10));
                 },
-                delay: 500,
+                delay: 0,
+                autoFocus: true,
                 select: function (event, ui) {
                     selectNodeByName(ui.item.value);
+                },
+                response: function (event, ui) {
+                    if (ui.content.length === 0) {
+                        console.log("noone found");
+                        alert("This Marvel-Hero does not exist!");
+                    }
                 }
             });
 
@@ -88,6 +95,8 @@ drawVisuals();
 
 draw();
 
+getMarvelResponse();
+
 
 function getMarvelResponse() {
 
@@ -135,5 +144,3 @@ function testImages(data) {
     output += '</ul>'
     $('#results').append(output);
 }
-
-getMarvelResponse();
