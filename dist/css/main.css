@@ -166,3 +166,35 @@ circle {
 
 rect {
   fill: #bbb; }
+
+.search_widget {
+  margin: 50px; }
+
+.search_widget_text {
+  font-family: 'Marvel';
+  font-size: 2em; }
+
+.footer {
+  font-family: 'Marvel';
+  font-size: 0.8em;
+  color: #F7F7F7;
+  position: 'relative';
+  bottom: 10px;
+  width: 100%;
+  text-align: 'right'; }
+
+.background {
+  background-color: black; }
+
+.container {
+  font-family: 'Marvel';
+  font-weight: 700;
+  color: #F7F7F7;
+  position: relative;
+  top: 10px;
+  width: 100%;
+  text-align: center; }
+
+.main_d3 {
+  position: relative;
+  margin-top: 40px; }

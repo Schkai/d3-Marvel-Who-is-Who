@@ -2991,12 +2991,15 @@ var INPUT_SEARCH_LIMIT = 10;
 var XMLHTTP_REQUEST_OK_CODE = 200;
 function init() {
   drawVisuals();
+  initSearch();
+}
+function initSearch() {
   loadJSON('/data/heroes_by_python.json', function(data) {
     var availableHeroes = [];
     for (var i = 0; i < data.length; i++) {
       availableHeroes.push(data[i].name);
     }
-    $("#tags").autocomplete({
+    $("#search_input").autocomplete({
       source: function(request, response) {
         var results = $.ui.autocomplete.filter(availableHeroes, request.term);
         response(results.slice(0, INPUT_SEARCH_LIMIT));
@@ -3036,15 +3039,15 @@ function loadJSON(path, success, error) {
 }
 init();
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/app.js
+//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/app.js
 },{"./visual":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperties(exports, {
   drawVisuals: {get: function() {
       return drawVisuals;
     }},
-  mouseclick: {get: function() {
-      return mouseclick;
+  nodeSelect: {get: function() {
+      return nodeSelect;
     }},
   selectNodeByName: {get: function() {
       return selectNodeByName;
@@ -3060,14 +3063,18 @@ var node,
     radius = diameter / 2,
     innerRadius = radius - 120;
 function drawVisuals() {
-  var cluster = d3.layout.cluster().size([360, innerRadius]).sort(null).value(function(d) {
+  var FULL_CIRC_RAD_DEGREES = 360;
+  var HALF_CIRC_RAD_DEGREES = 180;
+  var TENSION_D3 = .45;
+  var DIST_PADDING_BONUS = 8;
+  var cluster = d3.layout.cluster().size([FULL_CIRC_RAD_DEGREES, innerRadius]).sort(null).value(function(d) {
     return d.size;
   });
   var bundle = d3.layout.bundle();
-  var line = d3.svg.line.radial().interpolate("bundle").tension(.45).radius(function(d) {
+  var line = d3.svg.line.radial().interpolate("bundle").tension(TENSION_D3).radius(function(d) {
     return d.y;
   }).angle(function(d) {
-    return d.x / 180 * Math.PI;
+    return d.x / HALF_CIRC_RAD_DEGREES * Math.PI;
   });
   var svg = d3.selectAll("div").filter("#main").append("svg").attr("width", diameter).attr("height", diameter).append("g").attr("transform", "translate(" + radius + "," + radius + ")").attr("z-index", 1);
   link = svg.append("g").selectAll(".link");
@@ -3084,12 +3091,12 @@ function drawVisuals() {
     node = node.data(nodes.filter(function(n) {
       return !n.children;
     })).enter().append("text").attr("class", "node").attr("dy", ".31em").attr("transform", function(d) {
-      return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)");
+      return "rotate(" + (d.x - (HALF_CIRC_RAD_DEGREES / 2)) + ")translate(" + (d.y + 8) + ",0)" + (d.x < HALF_CIRC_RAD_DEGREES ? "" : "rotate(" + HALF_CIRC_RAD_DEGREES + ")");
     }).style("text-anchor", function(d) {
-      return d.x < 180 ? "start" : "end";
+      return d.x < HALF_CIRC_RAD_DEGREES ? "start" : "end";
     }).text(function(d) {
       return d.key;
-    }).on("click", mouseclick);
+    }).on("click", nodeSelect);
   });
   d3.select(self.frameElement).style("height", diameter + "px");
   function packageHierarchy(classes) {
@@ -3133,7 +3140,7 @@ function drawVisuals() {
     return imports;
   }
 }
-function mouseclick(d) {
+function nodeSelect(d) {
   var background = d3.select("#main");
   var card = background.selectAll((".card")).remove();
   node.each(function(n) {
@@ -3158,29 +3165,30 @@ function mouseclick(d) {
   drawInfobox(background, d);
 }
 function drawInfobox(background, d) {
+  var PADDING_MID_CIRC_INFOBOX = 200;
   var group = background.append("div").style({
     position: "absolute",
-    left: (radius - 200) + 'px',
-    top: (radius - 200) + 'px'
+    left: (radius - PADDING_MID_CIRC_INFOBOX) + 'px',
+    top: (radius - PADDING_MID_CIRC_INFOBOX) + 'px'
   }).attr("class", "card");
   if (d.details == "") {
     d.details = "Keine Beschreibung verfügbar";
   }
-  group.append("img").attr("class", "card-img-top").attr("width", 400).attr("height", 400).attr("src", d.thumbnail);
+  group.append("img").attr("class", "card-img-top").attr("width", PADDING_MID_CIRC_INFOBOX * 2).attr("height", PADDING_MID_CIRC_INFOBOX * 2).attr("src", d.thumbnail);
   var card_block = group.append("div").attr("class", "card-block");
   card_block.append("h4").text(d.name).attr("class", "card-title");
   card_block.append("h6").text(d.years).attr("class", "card-subtitle mb-2 text-muted");
   card_block.append("p").text(d.details).attr("class", "card-text").attr("style", "max-width: 360px");
 }
 function selectNodeByName(name) {
-  var nd;
+  var node;
   for (var i = 0; i < nodes.length; i++) {
     if (nodes[i].name === name) {
-      nd = nodes[i];
+      node = nodes[i];
     }
   }
-  mouseclick(nd);
+  nodeSelect(node);
 }
 
-//# sourceURL=/Users/robinkunath/d3-Marvel-Who-is-who/scripts/visual.js
+//# sourceURL=/Users/konstantin/Workspace/Uni/d3-marvel/scripts/visual.js
 },{}]},{},[4,1]);

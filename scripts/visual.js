@@ -9,6 +9,7 @@ export function drawVisuals() {
     const TENSION_D3 = .45;
     const DIST_PADDING_BONUS = 8;
 
+    //use cluster layout to produce node-link diagrams that place leaf nodes of the tree at same depth
     var cluster = d3.layout.cluster()
         .size([FULL_CIRC_RAD_DEGREES, innerRadius])
         .sort(null)
@@ -16,8 +17,10 @@ export function drawVisuals() {
             return d.size;
         });
 
+    //constructs a new default bundle layout
     var bundle = d3.layout.bundle();
 
+    //create lines between nodes
     var line = d3.svg.line.radial()
         .interpolate("bundle")
         .tension(TENSION_D3)
@@ -27,7 +30,8 @@ export function drawVisuals() {
         .angle(function (d) {
             return d.x / HALF_CIRC_RAD_DEGREES * Math.PI;
         });
-
+        
+        //append divs
     var svg = d3.selectAll("div").filter("#main").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
@@ -38,6 +42,7 @@ export function drawVisuals() {
     link = svg.append("g").selectAll(".link");
     node = svg.append("g").selectAll(".node");
 
+    //load data
     d3.json("../data/heroes_by_python.json", function (error, classes) {
         if (error) throw error;
         herocoordinates = classes;
@@ -45,6 +50,7 @@ export function drawVisuals() {
         nodes = cluster.nodes(packageHierarchy(classes));
         links = packageImports(nodes);
 
+        //bundle links
         link = link
             .data(bundle(links))
             .enter().append("path")
@@ -53,7 +59,8 @@ export function drawVisuals() {
             })
             .attr("class", "link")
             .attr("d", line);
-
+        
+        //bundle nodes and display them in a circle
         node = node
             .data(nodes.filter(function (n) {
                 return !n.children;
@@ -76,6 +83,7 @@ export function drawVisuals() {
 
     d3.select(self.frameElement).style("height", diameter + "px");
 
+    //hierarchical packaging of data
     function packageHierarchy(classes) {
         var map = {};
 
@@ -103,17 +111,17 @@ export function drawVisuals() {
         return map[""];
     }
 
-    // Return a list of imports for the given array of nodes.
+    //return a list of imports for the given array of nodes
     function packageImports(nodes) {
         var map = {},
             imports = [];
 
-        // Compute a map from name to node.
+        //compute a map from name to node
         nodes.forEach(function (d) {
             map[d.name] = d;
         });
 
-        // For each import, construct a link from the source to target node.
+        //for each import, construct a link from the source to target node
         nodes.forEach(function (d) {
             if (d.meets) d.meets.forEach(function (i) {
                 imports.push({
@@ -127,6 +135,7 @@ export function drawVisuals() {
     }
 }
 
+//seect node and set according color
 export function nodeSelect(d) {
     var background = d3.select("#main"); //.selectAll("svg");
 
@@ -162,6 +171,7 @@ export function nodeSelect(d) {
     drawInfobox(background, d);
 }
 
+//draw the infobox card
 function drawInfobox(background, d) {
 
     var PADDING_MID_CIRC_INFOBOX = 200;

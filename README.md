@@ -11,12 +11,6 @@ A d3.js project for university displaying Marvel characters and their relations 
 * Access site on `localhost:8000`
 
 
-## Hierarchical Edge Bundle
-
-```
-Based on: https://bl.ocks.org/mbostock/7607999
-```
-
 # Dokumentation
 
 ## Universität Regensburg
@@ -272,3 +266,11 @@ Das Filtern der Nodes stellte sich hier als das zentrale Problem heraus. Mit Hil
 Für die Suche einzelner Helden wurde ein Sucheingabefeld angelegt, dass ein Autocomplete feature der jQuery-UI library nutzt um dem Nutzer die in der Datenbank enthaltenen Helden vorzuschlagen. So wurde versucht die Usability für den Nutzer zu erhöhen.
 
 Dazu wird zuerst das durch Python generierte JSON eingelesen und die einzelnen Namen in einem Array abgespeichert. Danach wird das autocomplete auf das Eingabefeld gesetzt und es werden verschiedene Attribute wie autofocus und Delay (der bei lokalen Datensätzen unnütz wird) gesetzt. Über verschiedene Methoden wird die Listenlänge, die Eingabequelle (hier das Array) sowie die Funktion, die beim Auswählen des Elements ausgeführt wird, festgelegt. Letztere übergibt den Namen an die in der visual.js implementierten und exportierten Methode selectNodeByName(name), die den Namen mit den in der visual.js bereits vorhandenen Nodeliste vergleicht, um den richtigen Node zu finden. Dieser wird dann einfach an die Funktion mouseclick(node) übergeben, die auch bei einem Klick auf ein einzelnes Nodeelement aufgerufen wird.
+
+
+
+## Hierarchical Edge Bundle
+
+```
+Based on: https://bl.ocks.org/mbostock/1044242
+```
