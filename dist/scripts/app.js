@@ -3134,7 +3134,6 @@ function drawVisuals() {
   }
 }
 function mouseclick(d) {
-  console.log(d);
   var background = d3.select("#main");
   var card = background.selectAll((".card")).remove();
   node.each(function(n) {
@@ -3156,6 +3155,9 @@ function mouseclick(d) {
   }).classed("node--source", function(n) {
     return n.source;
   });
+  drawInfobox(background, d);
+}
+function drawInfobox(background, d) {
   var group = background.append("div").style({
     position: "absolute",
     left: (radius - 200) + 'px',

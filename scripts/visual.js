@@ -126,7 +126,6 @@ export function drawVisuals() {
 }
 
 export function mouseclick(d) {
-    console.log(d);
     var background = d3.select("#main"); //.selectAll("svg");
 
     var card = background.selectAll((".card")).remove();
@@ -158,8 +157,10 @@ export function mouseclick(d) {
             return n.source;
         }); //set the class
 
-    //console.log(d.name);
+    drawInfobox(background, d);
+}
 
+function drawInfobox(background, d){
     var group = background.append("div")
         .style({
             position: "absolute",
@@ -202,11 +203,4 @@ export function selectNodeByName(name) {
     }
 
     mouseclick(nd);
-
-    /*for (var i = 0; i < herocoordinates.length; i++) {
-      if (herocoordinates[i].name == nd.innerHTML) {
-          mouseclick(herocoordinates[i]);
-          console.log(herocoordinates[i]);
-      }
-    }*/
 }
